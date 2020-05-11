@@ -1,13 +1,14 @@
-import React, { Component } from "react"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class VisualizeDiagramForceSimulation extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.modelFile = props.modelFile
     this.visualizer = props.visualizer
   }
 
-  render() {
+  render () {
     return <div>
       <div>
         TBA: force simulation visualizer
@@ -19,6 +20,11 @@ class VisualizeDiagramForceSimulation extends Component {
       <div id="visualizer" />
     </div>
   }
+}
+
+VisualizeDiagramForceSimulation.propTypes = {
+  modelFile: PropTypes.string.isRequired,
+  visualizer: PropTypes.string.isRequired
 }
 
 export default VisualizeDiagramForceSimulation
