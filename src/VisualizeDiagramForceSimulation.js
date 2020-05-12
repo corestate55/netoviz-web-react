@@ -27,8 +27,6 @@ class VisualizeDiagramForceSimulation extends Component {
   }
 
   componentDidMount () {
-    console.log('[viz] component did mount.')
-    console.log(`[viz] GRPC_WEB_PORT: ${process.env.REACT_APP_NETOVIZ_GRPC_WEB_PORT}, REST_PORT:${process.env.REACT_APP_NETOVIZ_REST_PORT}`)
     this.visualizer = this.makeVisualizer(this.svgWidth, this.svgHeight)
     this.visualizer.setUISideDrawRfcTopologyHook(_layers => {})
     this.drawRfcTopologyData()
@@ -39,7 +37,6 @@ class VisualizeDiagramForceSimulation extends Component {
   }
 
   drawRfcTopologyData () {
-    console.log('[viz] draw rfc topology data: ', this.modelFile)
     this.visualizer.drawRfcTopologyData(this.modelFile, this.currentAlertRow)
   }
 }

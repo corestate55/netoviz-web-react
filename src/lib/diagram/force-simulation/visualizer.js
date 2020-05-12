@@ -21,7 +21,6 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
    */
   constructor() {
     super()
-    console.log('[FS/visualier] constructor')
     /** @type {PositionCache} */
     this.positionCache = new PositionCache()
     /** @type {Array<ForceSimulationDiagramOperator>} */
@@ -77,7 +76,6 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
    * @private
    */
   _getGraphDataViaGRPC(jsonName, alert) {
-    console.log('[FS/visualizer] get graph data via grpc')
     const graphName = `FORCE_SIMULATION`
     const params = { target: alert?.host || '' }
     grpcClient.getGraphData(graphName, jsonName, params).then(
@@ -116,7 +114,6 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
    * @public
    */
   drawRfcTopologyData(jsonName, alert) {
-    console.log('[FS/visualizer] draw rfc topology data:', jsonName, alert)
     if (process.env.NODE_ENV === 'development') {
       this._getGraphDataViaGRPC(jsonName, alert)
     } else {

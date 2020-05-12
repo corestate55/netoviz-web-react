@@ -17,7 +17,6 @@ class ForceSimulationDiagramBuilder extends DiagramBase {
    */
   constructor(networkData, findNodeCallback) {
     super()
-    console.log('[FS/builder] constructor')
     /** @type {ForceSimulationNetworkData} */
     this.networkData = networkData
     /**
@@ -52,7 +51,6 @@ class ForceSimulationDiagramBuilder extends DiagramBase {
    * @private
    */
   _makeAllDiagramElements() {
-    console.log('[FS/builder] make all diagram elements')
     // rename several link properties before make each diagram.
     this._renameLinkProperty()
 
