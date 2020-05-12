@@ -5,7 +5,13 @@ module.exports = {
     es6: true,
     node: true
   },
+  ignorePatterns: [
+    '**/*_pb.js',
+    'src/lib/**/*.js',
+    'src/server/**/*.js'
+  ],
   extends: [
+    'react-app',
     'plugin:react/recommended',
     'standard'
   ],
@@ -24,5 +30,10 @@ module.exports = {
     'react'
   ],
   rules: {
+  },
+  settings: {
+    react: {
+      version: 'detect'
+    }
   }
 }

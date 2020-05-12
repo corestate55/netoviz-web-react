@@ -1,0 +1,57 @@
+@import "./color-schema";
+
+text.dep,
+text.dep2,
+text.nest,
+text.dist {
+  // do not specify font-size except screen message
+  // size of svg object label must be scaled
+  // when these DOMs are added.
+  fill: $stroke_text;
+
+  &.layer {
+    text-anchor: end;
+  }
+  &.select-ready {
+    font-weight: bold;
+  }
+  &.node {
+    text-anchor: start;
+    &.inactive {
+      @extend %inactive;
+    }
+    &.active {
+      @extend %active;
+    }
+  }
+}
+
+text.tp {
+  fill: darkgray;
+
+  &.dep,
+  &.nest {
+    text-anchor: middle;
+  }
+  &.dep2 {
+    text-anchor: start;
+  }
+  &.inactive {
+    @extend %inactive;
+  }
+  &.active {
+    @extend %active;
+  }
+}
+
+text.warning {
+  fill: red;
+  font-weight: bold;
+}
+
+text.control-button {
+  fill: $stroke_text;
+  &.select-ready {
+    font-weight: bold;
+  }
+}
