@@ -4,7 +4,7 @@ import VisualizeDiagramForceSimulation from './VisualizeDiagramForceSimulation'
 function App () {
   return (
     <div className="App">
-      <VisualizeDiagramForceSimulation modelFile="target3b.json" visualizer="forceSimulation" />
+      <VisualizeDiagramForceSimulation modelFile="target3b.json" />
     </div>
   )
 }

@@ -1,0 +1,60 @@
+@import "./color-schema";
+
+circle.topo.tp,
+circle.dep,
+circle.dep2.tp,
+circle.nest.tp {
+  fill: $fill_normal1;
+  stroke: $stroke_normal2;
+
+  &.inactive {
+    @extend %inactive;
+  }
+  &.active {
+    @extend %active;
+  }
+
+  &.select-ready {
+    @extend %select-ready;
+    fill: $fill_select_ready;
+  }
+  &.selected {
+    @extend %selected;
+  }
+  &.selected2,
+  &.selected-children {
+    @extend %selected2;
+  }
+  &.selected3,
+  &.selected-parents {
+    @extend %selected3;
+  }
+
+  &.checked {
+    @extend %checked;
+    fill: $fill_checked;
+  }
+  &.fixed {
+    stroke: $stroke_fixed;
+    stroke-width: 2pt;
+  }
+
+  &.changed {
+    @extend %changed;
+    &.select-ready {
+      @extend %changed-highlight;
+    }
+  }
+  &.added {
+    @extend %added;
+    &.select-ready {
+      @extend %added-highlight;
+    }
+  }
+  &.deleted {
+    @extend %deleted;
+    &.select-ready {
+      @extend %deleted-highlight;
+    }
+  }
+}

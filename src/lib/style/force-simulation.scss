@@ -1,0 +1,158 @@
+@import "common";
+@import "node";
+@import "term-point";
+@import "link";
+
+svg {
+  &.network {
+    &.changed {
+      border: solid 3pt $stroke_changed;
+    }
+    &.added {
+      border: solid 3pt $stroke_added;
+    }
+    &.deleted {
+      border: solid 3pt $stroke_deleted;
+    }
+  }
+}
+
+%circle-base {
+  fill: $fill_normal1;
+  stroke: $stroke_normal;
+  stroke-width: 1px;
+}
+
+circle.topo {
+  @extend %circle-base;
+
+  &.inactive {
+    @extend %inactive;
+  }
+  &.active {
+    @extend %active;
+  }
+
+  // node circle: outer circle
+  &.node-circle {
+    fill: $fill_normal2;
+    stroke: none;
+
+    &.selected-children {
+      fill: $fill_selected2;
+    }
+    &.selected-parents {
+      fill: $fill_selected3;
+    }
+    &.selected {
+      fill: $fill_selected;
+    }
+    &.select-ready {
+      fill: $fill_select_ready;
+      transition: fill .2s ease-in-out;
+    }
+  }
+}
+
+div {
+  &.control {
+    padding: 10pt;
+    display: inline-block;
+    vertical-align: top;
+
+    ul {
+      list-style: none;
+      padding-left: 1em;
+    }
+  }
+
+  &#model-selector {
+    width: 20%;
+  }
+
+  &#layer-selector {
+    width: 20%;
+  }
+
+  &#visualizer-selector {
+    width: 20%;
+  }
+
+  &#legend {
+    width: 30%;
+  }
+
+  &#visualizer {
+    clear: both;
+  }
+
+  &.network-layer {
+    float: left;
+    width: 100%;
+    p {
+      margin: 0.3em;
+    }
+  }
+
+  &.info-tables {
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+// node/termination-point label
+text {
+  &.tp-label {
+    dominant-baseline: central;
+    font-size: 8px;
+    fill-opacity: 0.5;
+  }
+  &.node-label {
+    dominant-baseline: central;
+    font-size: 10px;
+  }
+}
+
+// info tables
+table.node-info-table,
+table.tp-info-table {
+  display: inline-block;
+  margin: 0.25em;
+
+  &.node-info-table {
+    float: left;
+  }
+  &.tp-info-table {
+    float: right;
+  }
+  th {
+    padding: 0.25em;
+    background: palegoldenrod;
+    white-space: nowrap;
+  }
+  td {
+    padding: 0.25em;
+    white-space: nowrap;
+    transition: all .2s ease-in-out;
+
+    &.fixed {
+      border: 2px solid $stroke_fixed;
+    }
+
+    &.selected-children {
+      background: $fill_selected2;
+    }
+    &.selected-parents {
+      background: $fill_selected3;
+      color: white;
+    }
+    &.selected {
+      background: $fill_selected;
+      color: white;
+    }
+    &.select-ready {
+      background: $fill_select_ready;
+      transition: all .2s ease-in-out;
+    }
+  }
+}

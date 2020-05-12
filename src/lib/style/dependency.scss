@@ -1,0 +1,28 @@
+@import "common";
+@import "node";
+@import "term-point";
+@import "text-label";
+
+path.dep,
+path.dep2 {
+  fill: none;
+  stroke-width: 2pt;
+  stroke-opacity: 0.5;
+  &.node {
+    stroke: lawngreen;
+  }
+  &.tp {
+    stroke: skyblue;
+  }
+  transition: stroke .2s ease-in-out;
+}
+
+marker.dep {
+  stroke-opacity: .5;
+  &.node {
+    fill: lawngreen;
+  }
+  &.tp {
+    fill: skyblue;
+  }
+}

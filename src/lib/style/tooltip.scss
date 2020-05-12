@@ -1,0 +1,65 @@
+// defaults
+$default_font_size: 10pt;
+
+$default_bg_color: rgba(0, 0, 0, 0.7);
+$aggregated_bg_color: rgba(77, 19, 0, 0.85);
+
+div.tooltip {
+  background: $default_bg_color;
+  border-radius: 8px;
+  color: #fff;
+  font-size: $default_font_size;
+  white-space: nowrap;
+  height: auto;
+  line-height: 1.1;
+  min-height: 45px;
+  padding: 10px;
+  position: absolute;
+  visibility: hidden;
+  width: auto;
+  pointer-events: none;
+
+  &:after {
+    border: 12px solid transparent;
+    border-left-width: 0;
+    border-right-color: $default_bg_color;
+    content: "";
+    display: block;
+    left: -12px;
+    position: absolute;
+    top: 10px;
+    width: 0;
+  }
+
+  &.aggregated {
+    background: $aggregated_bg_color;
+    pointer-events: all;
+    &:after {
+      border-right-color: $aggregated_bg_color;
+    }
+  }
+
+  &.pop-down {
+    opacity: 0;
+    transition: visibility 0s .2s, opacity .2s ease-in-out;
+    visibility: hidden;
+  }
+  &.pop-up {
+    opacity: 1;
+    transition: all .2s ease-in-out;
+    visibility: visible;
+  }
+}
+
+div.tooltip a {
+  color: lightskyblue;
+  &:hover {
+    font-weight: bold;
+    text-decoration: underline;
+  }
+}
+
+// styles for common text
+.attr {
+  color: lightgreen;
+}

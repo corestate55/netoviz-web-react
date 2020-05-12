@@ -1,0 +1,53 @@
+@import "common";
+@import "node";
+@import "term-point";
+@import "link";
+@import "text-label";
+
+$grid_x_color: limegreen;
+$grid_y_color: mediumspringgreen;
+
+%grid-handle {
+  fill-opacity: 0.8;
+  stroke: none;
+}
+
+circle.nest {
+  &.grid-x-handle {
+    @extend %grid-handle;
+    fill: $grid_x_color;
+  }
+  &.grid-y-handle {
+    @extend %grid-handle;
+    fill: $grid_y_color;
+  }
+}
+
+text.nest {
+  &.grid-x-label, &.grid-y-label {
+    text-anchor: middle;
+    fill: white;
+    font-weight: bold;
+  }
+}
+
+line.nest {
+  &.grid-x {
+    stroke: $grid_x_color;
+  }
+  &.grid-y {
+    stroke: $grid_y_color;
+  }
+  &.support-tp {
+    stroke-width: 4;
+    stroke-dasharray: 4;
+  }
+}
+
+path.nest.tp-tp {
+  stroke-width: 4;
+  stroke-linejoin: round;
+  fill: none;
+  stroke: $stroke_normal2;
+  stroke-opacity: 0.6;
+}

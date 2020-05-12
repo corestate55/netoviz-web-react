@@ -1,0 +1,61 @@
+@import "./color-schema";
+
+circle.topo.node,
+rect.dep,
+circle.dep2.node,
+circle.dep2.network,
+rect.nest,
+circle.dist.node {
+  fill: $fill_normal1;
+  stroke: $stroke_normal;
+
+  &.aggregated {
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-dasharray: 0, 8px;
+  }
+
+  &.select-ready {
+    @extend %select-ready;
+  }
+  &.selected {
+    @extend %selected;
+  }
+  &.selected2,
+  &.selected-children { // children (in topo graph)
+    @extend %selected2;
+  }
+  &.selected3,
+  &.selected-parents { // parents (in topo and nested/shallow graph)
+    @extend %selected3;
+  }
+  &.fixed { // (in topo graph)
+    stroke: $stroke_fixed;
+    stroke-width: 2pt;
+  }
+
+  &.inactive {
+    @extend %inactive;
+  }
+  &.active {
+    @extend %active;
+  }
+  &.changed {
+    @extend %changed;
+    &.select-ready {
+      @extend %changed-highlight;
+    }
+  }
+  &.added {
+    @extend %added;
+    &.select-ready {
+      @extend %added-highlight;
+    }
+  }
+  &.deleted {
+    @extend %deleted;
+    &.select-ready {
+      @extend %deleted-highlight;
+    }
+  }
+}

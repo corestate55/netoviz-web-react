@@ -1,0 +1,108 @@
+// fill color
+// normal color
+$fill_normal1: #FEF6EB; // node center circle
+$fill_normal2: lightgray; // node outer circle
+$stroke_normal: #c4b7a6; // node
+$stroke_normal2: #3e4444; // link and tp
+$stroke_text: #303030;
+
+// color for object selection (node outer circle)
+$fill_select_ready: #66FFFF;
+$fill_selected: #FE7367;
+$fill_selected2: #FCBA12; // children
+$fill_selected3: #C7A348; // parents (parents of selected node in nested graph)
+$fill_checked: cyan;
+$stroke_select_ready: #66FFFF;
+$stroke_selected: #f7786b;
+$stroke_selected2: #FCBA12;
+$stroke_selected3: #B1995D;
+$stroke_checked: cyan;
+$stroke_fixed: hotpink;
+
+// color for diff state (tp and node center circle)
+$fill_changed: #FDED3A;
+$fill_deleted: #FE7367;
+$fill_added: #92D364;
+$stroke_changed: #CBCB01;
+$stroke_changed_highlight: #FDED2A;
+$stroke_deleted: #8D0808;
+$stroke_deleted_highlight: #AA0B0B;
+$stroke_added: #66B032;
+$stroke_added_highlight: limegreen;
+
+// found and selected itself directly
+%selected-base {
+  stroke-width: 6px;
+  stroke-opacity: 0.8;
+  fill-opacity: 0.4;
+}
+
+%selected {
+  @extend %selected-base;
+  stroke: $stroke_selected;
+  fill: $fill_selected;
+}
+
+// not found and selected parents instead of itself
+%selected2 {
+  @extend %selected-base;
+  stroke: $stroke_selected2;
+  fill: $fill_selected2;
+}
+
+%selected3 {
+  @extend %selected-base;
+  stroke: $stroke_selected3;
+  fill: $fill_selected3;
+}
+
+// mouseover
+%select-ready {
+  stroke: $stroke_select_ready;
+  stroke-width: 5px;
+}
+
+// click tp/line set
+%checked {
+  stroke: $stroke_checked;
+  stroke-width: 5pt;
+  stroke-opacity: 0.5;
+}
+
+// diff node/tp set
+%changed {
+  stroke: $stroke_changed;
+  stroke-width: 3pt;
+}
+%added {
+  stroke: $stroke_added;
+  stroke-width: 3pt;
+}
+%deleted {
+  stroke: $stroke_deleted;
+  stroke-width: 3pt;
+}
+
+%changed-highlight {
+  stroke: $stroke_changed_highlight;
+  stroke-width: 5pt;
+}
+%added-highlight {
+  stroke: $stroke_added_highlight;
+  stroke-width: 5pt;
+}
+%deleted-highlight {
+  stroke: $stroke_deleted_highlight;
+  stroke-width: 5pt;
+}
+
+%inactive {
+  fill-opacity: 0.2;
+  stroke-opacity: 0.1;
+  transition: fill-opacity .5s ease-in-out, stroke-opacity .5s ease-in-out;
+}
+%active {
+  fill-opacity: 1.0;
+  stroke-opacity: 1.0;
+  transition: fill-opacity .5s ease-in-out, stroke-opacity .5s ease-in-out;
+}
