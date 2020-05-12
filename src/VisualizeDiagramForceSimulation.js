@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ForceSimulationDiagramVisualizer from './lib/diagram/force-simulation/visualizer'
+import './lib/style/force-simulation.scss'
 
 class VisualizeDiagramForceSimulation extends Component {
   constructor (props) {
