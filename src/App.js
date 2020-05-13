@@ -32,14 +32,15 @@ class App extends React.Component {
       visualizer: ''
     }
     this.doChangeSelectVisualizers = this.doChangeSelectVisualizers.bind(this)
+    this.doChangeInputModelFile = this.doChangeInputModelFile.bind(this)
   }
 
   doChangeSelectVisualizers(event) {
     const targetVisualizer = event.target.value
     console.log('select visualizers: ', targetVisualizer)
     this.setState(state => ({
-      modelFile: state.modelFile,
-      visualizer: targetVisualizer
+      modelFile: state.modelFile, // keep
+      visualizer: targetVisualizer // update
     }))
   }
 
@@ -55,11 +56,37 @@ class App extends React.Component {
     return <form onChange={this.doChangeSelectVisualizers}>{radioButtons}</form>
   }
 
+  doChangeInputModelFile(event) {
+    const targetModelFile = event.target.value
+    console.log('change input model file: ', targetModelFile)
+    this.setState(state => ({
+      modelFile: targetModelFile, // update
+      visualizer: state.visualizer // keep
+    }))
+  }
+
+  inputModelFile() {
+    return (
+      <form>
+        Model file:&nbsp;
+        <input
+          onChange={this.doChangeInputModelFile}
+          type="text"
+          value={this.state.modelFile}
+          name="modelFile"
+        />
+      </form>
+    )
+  }
+
   render() {
     return (
       <div className="App">
-        {this.selectVisualizers()}
+        <div>{this.selectVisualizers()}</div>
+        <div>{this.inputModelFile()}</div>
+        <hr />
         <div>
+          App State:
           <ul>
             <li>date: {new Date().toISOString()}</li>
             <li>model file: {this.state.modelFile}</li>
