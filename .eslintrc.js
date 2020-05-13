@@ -12,8 +12,12 @@ module.exports = {
   ],
   extends: [
     'react-app',
+    'prettier',
+    'prettier/react',
+    'plugin:prettier/recommended',
     'plugin:react/recommended',
-    'standard'
+    'standard',
+    'prettier-standard'
   ],
   globals: {
     Atomics: 'readonly',
