@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import VisualizeDiagramForceSimulation from './VisualizeDiagramForceSimulation'
 import VisualizeDiagramDependency from './VisualizeDiagramDependency'
 import VisualizeDiagramDependency2 from './VisualizeDiagramDependency2'
+import VisualizeDiagramNested from './VisualizeDiagramNested'
+import VisualizeDiagramDistance from './VisualizeDiagramDistance'
 import './lib/style/tooltip.scss'
 
 class VisualizeDiagram extends Component {
@@ -18,12 +20,16 @@ class VisualizeDiagram extends Component {
     switch (this.state.visualizer) {
       case 'forceSimulation':
         return (
-          <VisualizeDiagramForceSimulation modelFile={this.state.modelFile}/>
+          <VisualizeDiagramForceSimulation modelFile={this.state.modelFile} />
         )
       case 'dependency':
-        return <VisualizeDiagramDependency modelFile={this.state.modelFile}/>
+        return <VisualizeDiagramDependency modelFile={this.state.modelFile} />
       case 'dependency2':
-        return <VisualizeDiagramDependency2 modelFile={this.state.modelFile}/>
+        return <VisualizeDiagramDependency2 modelFile={this.state.modelFile} />
+      case 'nested':
+        return <VisualizeDiagramNested modelFile={this.state.modelFile} />
+      case 'distance':
+        return <VisualizeDiagramDistance modelFile={this.state.modelFile} />
       default:
         return <div>Error: unknown visualizer: {this.state.visualizer}</div>
     }

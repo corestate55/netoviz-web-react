@@ -7,7 +7,7 @@ class VisualizeDiagramBase extends Component {
     this.modelFile = props.modelFile
     this.svgWidth = 800
     this.svgHeight = 600
-    this.currentAlertRow = { host: '' }
+    this.currentAlertRow = { host: 'Seg.A', layer: 'target-L3' }
   }
 
   render() {
@@ -29,6 +29,16 @@ class VisualizeDiagramBase extends Component {
     this.visualizer = this.makeVisualizer(this.svgWidth, this.svgHeight)
     this.afterMakeVisualizer()
     this.drawRfcTopologyData()
+  }
+
+  makeVisualizer(width, height) {
+    // return diagram visualizer as `this.visualizer`
+    console.error('[viz] makeVisualizer must be overwritten.')
+  }
+
+  drawRfcTopologyData() {
+    // function to generate diagram using visualizer.
+    console.error('[viz] drawRfcTopologyData must be overwrite.')
   }
 
   beforeMakeVisualizer() {
