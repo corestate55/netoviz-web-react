@@ -6,26 +6,41 @@ import './lib/style/tooltip.scss'
 class VisualizeDiagram extends Component {
   constructor(props) {
     super(props)
-    this.modelFile = props.modelFile
-    this.visualizer = props.visualizer
+    this.state = {
+      modelFile: props.modelFile,
+      visualizer: props.visualizer
+    }
   }
 
   render() {
-    switch (this.visualizer) {
+    switch (this.state.visualizer) {
       case 'forceSimulation':
-        return <VisualizeDiagramForceSimulation modelFile={this.modelFile} />
+        return (
+          <VisualizeDiagramForceSimulation modelFile={this.state.modelFile} />
+        )
       default:
         return (
           <div>
-            <p>
-              Error: Unknown visualizer
-              <ul>
-                <li>model file: {this.modelFile}</li>
-                <li>visualizer: {this.visualizer}</li>
-              </ul>
-            </p>
+            Error: Unknown visualizer
+            <ul>
+              <li>date: {new Date().toISOString()}</li>
+              <li>model file: {this.state.modelFile}</li>
+              <li>visualizer: {this.state.visualizer}</li>
+            </ul>
           </div>
         )
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.visualizer !== this.props.visualizer ||
+      this.state.modelFile !== this.props.modelFile
+    ) {
+      this.setState(_state => ({
+        modelFile: this.props.modelFile,
+        visualizer: this.props.visualizer
+      }))
     }
   }
 }
