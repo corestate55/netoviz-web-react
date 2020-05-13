@@ -1,12 +1,15 @@
 import React from 'react'
-import VisualizeDiagramForceSimulation from './VisualizeDiagramForceSimulation'
-import './lib/style/tooltip.scss'
+import VisualizeDiagram from './VisualizeDiagram'
 import './lib/style/common.scss'
 
 function App() {
+  // dummy data
+  const modelFile = 'target3b.json'
+  const visualizer = 'forceSimulation'
+
   return (
     <div className="App">
-      <VisualizeDiagramForceSimulation modelFile="target3b.json" />
+      <VisualizeDiagram modelFile={modelFile} visualizer={visualizer} />
     </div>
   )
 }
