@@ -1,6 +1,6 @@
 import React from 'react'
 import VisualizeDiagram from './components/VisualizeDiagram'
-import './lib/style/common.scss'
+import './index.scss'
 
 class App extends React.Component {
   constructor(props) {
@@ -38,10 +38,7 @@ class App extends React.Component {
   doChangeSelectVisualizers(event) {
     const targetVisualizer = event.target.value
     console.log('select visualizers: ', targetVisualizer)
-    this.setState(state => ({
-      modelFile: state.modelFile, // keep
-      visualizer: targetVisualizer // update
-    }))
+    this.setState(state => ({ visualizer: targetVisualizer }))
   }
 
   selectVisualizers() {
@@ -59,10 +56,7 @@ class App extends React.Component {
   doChangeInputModelFile(event) {
     const targetModelFile = event.target.value
     console.log('change input model file: ', targetModelFile)
-    this.setState(state => ({
-      modelFile: targetModelFile, // update
-      visualizer: state.visualizer // keep
-    }))
+    this.setState(state => ({ modelFile: targetModelFile }))
   }
 
   inputModelFile() {
@@ -85,7 +79,7 @@ class App extends React.Component {
         <div>{this.selectVisualizers()}</div>
         <div>{this.inputModelFile()}</div>
         <hr />
-        <div>
+        <div className="debug">
           App State:
           <ul>
             <li>date: {new Date().toISOString()}</li>

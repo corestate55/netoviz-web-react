@@ -1,3 +1,4 @@
+import React from 'react'
 import NestedDiagramVisualizer from '../lib/diagram/nested/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
 import '../lib/style/nested.scss'
@@ -6,6 +7,76 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
   constructor(props) {
     super(props)
     this.visualizerName = 'nested'
+    this.state = {
+      // keep
+      modelFile: this.state.modelFile,
+      currentAlertRow: this.state.currentAlertRow,
+      // append
+      reverse: false,
+      depth: 1,
+      fitGrid: false
+    }
+    this.doChangeView = this.doChangeView.bind(this)
+    this.doChangeDepth = this.doChangeDepth.bind(this)
+    this.doChangeFitGrid = this.doChangeFitGrid.bind(this)
+  }
+
+  doChangeView(event) {
+    const targetView = event.target.value
+    console.log('[nest] change view:', targetView)
+    this.setState({ reverse: targetView === 'reverse' })
+  }
+
+  doChangeDepth(event) {
+    const targetDepth = event.target.value
+    console.log('[nest] change depth:', targetDepth)
+    if (String(targetDepth).match(/[0-9]+/) && Number(targetDepth) > 0) {
+      this.setState({ depth: Number(targetDepth) })
+    } else {
+      this.setState({ depth: 1 })
+    }
+  }
+
+  doChangeFitGrid(event) {
+    const enableFitGrid = event.target.checked
+    console.log('[nest] change fitGrid', enableFitGrid)
+    this.setState({ fitGrid: enableFitGrid })
+  }
+
+  renderAdditionalForm() {
+    return (
+      <div>
+        <form onChange={this.doChangeView}>
+          <label>
+            <input type="radio" name="view" value="standard" />
+            Top
+          </label>
+          <label>
+            <input type="radio" name="view" value="reverse" />
+            Bottom
+          </label>
+        </form>
+        <label>
+          Depth
+          <input type="text" onChange={this.doChangeDepth} />
+        </label>
+        <label>
+          Fit Grid
+          <input type="checkbox" onChange={this.doChangeFitGrid} />
+        </label>
+      </div>
+    )
+  }
+
+  render() {
+    const baseDiagram = super.render()
+    const additionalForm = this.renderAdditionalForm()
+    return (
+      <div>
+        {additionalForm}
+        {baseDiagram}
+      </div>
+    )
   }
 
   makeVisualizer(width, height) {
@@ -19,10 +90,10 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
 
   drawRfcTopologyData() {
     const dummyParams = {
-      reverse: false,
-      depth: 2,
+      reverse: this.state.reverse,
+      depth: this.state.depth,
       layer: this.state.currentAlertRow?.layer,
-      fitGrid: true
+      fitGrid: this.state.fitGrid
     }
     this.visualizer.drawRfcTopologyData(
       this.state.modelFile,

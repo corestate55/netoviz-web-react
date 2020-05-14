@@ -38,7 +38,7 @@ class VisualizeDiagram extends Component {
   render() {
     return (
       <div>
-        <div>
+        <div className="debug">
           VisualizeDiagram:
           <ul>
             <li>date: {new Date().toISOString()}</li>
