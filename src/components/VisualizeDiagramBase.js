@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 class VisualizeDiagramBase extends Component {
   constructor(props) {
     super(props)
+    this.visualizerName = 'Base'
     this.svgWidth = 800
     this.svgHeight = 600
     this.state = {
@@ -18,6 +19,7 @@ class VisualizeDiagramBase extends Component {
         <div>
           VisualizeDiagramBase:
           <ul>
+            <li>{this.visualizerName}</li>
             <li>{this.state.modelFile}</li>
           </ul>
         </div>
@@ -27,6 +29,7 @@ class VisualizeDiagramBase extends Component {
   }
 
   componentDidMount() {
+    console.log(`[viz/${this.visualizerName}] did mount`)
     this.beforeMakeVisualizer() // hook
     this.visualizer = this.makeVisualizer(this.svgWidth, this.svgHeight)
     this.afterMakeVisualizer() // hook
@@ -34,13 +37,14 @@ class VisualizeDiagramBase extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(`[viz/${this.visualizerName}] did update`)
     this.clearAllHighlight()
     this.drawRfcTopologyData()
     this.updateState(prevProps, prevState, snapshot)
   }
 
   componentWillUnmount() {
-    console.log('[viz] before destroy')
+    console.log(`[viz/${this.visualizerName}] will unmount`)
     this.beforeDeleteVisualizer() // hook
     delete this.visualizer
     this.afterDeleteVisualizer() // hook

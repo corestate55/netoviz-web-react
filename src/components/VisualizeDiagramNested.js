@@ -3,6 +3,11 @@ import VisualizeDiagramBase from './VisualizeDiagramBase'
 import '../lib/style/nested.scss'
 
 class VisualizeDiagramNested extends VisualizeDiagramBase {
+  constructor(props) {
+    super(props)
+    this.visualizerName = 'nested'
+  }
+
   makeVisualizer(width, height) {
     return new NestedDiagramVisualizer(width, height)
   }

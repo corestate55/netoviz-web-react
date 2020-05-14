@@ -3,6 +3,11 @@ import VisualizeDiagramBase from './VisualizeDiagramBase'
 import '../lib/style/dependency.scss'
 
 class VisualizeDiagramDependency extends VisualizeDiagramBase {
+  constructor(props) {
+    super(props)
+    this.visualizerName = 'dependency'
+  }
+
   makeVisualizer(width, height) {
     return new DependencyDiagramVisualizer(width, height)
   }

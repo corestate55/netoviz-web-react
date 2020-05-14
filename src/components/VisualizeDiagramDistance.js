@@ -3,6 +3,11 @@ import VisualizeDiagramBase from './VisualizeDiagramBase'
 import '../lib/style/distance.scss'
 
 class VisualizeDiagramDistance extends VisualizeDiagramBase {
+  constructor(props) {
+    super(props)
+    this.visualizerName = 'distance'
+  }
+
   makeVisualizer(width, height) {
     return new DistanceDiagramVisualizer(width, height)
   }
