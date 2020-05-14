@@ -3,6 +3,11 @@ import VisualizeDiagramBase from './VisualizeDiagramBase'
 import '../lib/style/distance.scss'
 
 class VisualizeDiagramDistance extends VisualizeDiagramBase {
+  constructor(props) {
+    super(props)
+    this.visualizerName = 'distance'
+  }
+
   makeVisualizer(width, height) {
     return new DistanceDiagramVisualizer(width, height)
   }
@@ -14,13 +19,17 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
 
   drawRfcTopologyData() {
     const dummyParam = {
-      layer: this.currentAlertRow?.layer
+      layer: this.state.currentAlertRow?.layer
     }
     this.visualizer.drawRfcTopologyData(
-      this.modelFile,
-      this.currentAlertRow,
+      this.state.modelFile,
+      this.state.currentAlertRow,
       dummyParam
     )
+  }
+
+  clearAllHighlight() {
+    this.visualizer.clearHighlight()
   }
 }
 

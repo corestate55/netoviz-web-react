@@ -4,10 +4,13 @@ import PropTypes from 'prop-types'
 class VisualizeDiagramBase extends Component {
   constructor(props) {
     super(props)
-    this.modelFile = props.modelFile
+    this.visualizerName = 'Base'
     this.svgWidth = 800
     this.svgHeight = 600
-    this.currentAlertRow = { host: 'Seg.A', layer: 'target-L3' }
+    this.state = {
+      modelFile: props.modelFile,
+      currentAlertRow: { host: 'Seg.A', layer: 'target-L3' }
+    }
   }
 
   render() {
@@ -16,7 +19,8 @@ class VisualizeDiagramBase extends Component {
         <div>
           VisualizeDiagramBase:
           <ul>
-            <li>{this.modelFile}</li>
+            <li>{this.visualizerName}</li>
+            <li>{this.state.modelFile}</li>
           </ul>
         </div>
         <div id="visualizer" />
@@ -25,10 +29,36 @@ class VisualizeDiagramBase extends Component {
   }
 
   componentDidMount() {
-    this.beforeMakeVisualizer()
+    console.log(`[viz/${this.visualizerName}] did mount`)
+    this.beforeMakeVisualizer() // hook
     this.visualizer = this.makeVisualizer(this.svgWidth, this.svgHeight)
-    this.afterMakeVisualizer()
+    this.afterMakeVisualizer() // hook
     this.drawRfcTopologyData()
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(`[viz/${this.visualizerName}] did update`)
+    this.clearAllHighlight()
+    this.drawRfcTopologyData()
+    this.updateState(prevProps, prevState, snapshot)
+  }
+
+  componentWillUnmount() {
+    console.log(`[viz/${this.visualizerName}] will unmount`)
+    this.beforeDeleteVisualizer() // hook
+    delete this.visualizer
+    this.afterDeleteVisualizer() // hook
+  }
+
+  updateState(prevProps, prevState, snapshot) {
+    // update state when props was updated.
+    if (this.state.modelFile !== this.props.modelFile) {
+      // TODO: check currentAlertRow update
+      this.setState(state => ({
+        modelFile: this.props.modelFile,
+        currentAlertRow: state.currentAlertRow // keep
+      }))
+    }
   }
 
   makeVisualizer(width, height) {
@@ -47,6 +77,27 @@ class VisualizeDiagramBase extends Component {
 
   afterMakeVisualizer() {
     // nothing to do. (be overridden if necessary)
+  }
+
+  beforeDeleteVisualizer() {
+    // optional: hook in beforeDestroy()
+  }
+
+  afterDeleteVisualizer() {
+    // optional: hook in beforeDestroy()
+  }
+
+  highlightByAlert(alertRow) {
+    if (alertRow) {
+      this.visualizer.highlightByAlert(alertRow)
+    } else {
+      this.clearAllHighlight()
+    }
+  }
+
+  clearAllHighlight() {
+    // function to clear all highlights in diagram(s).
+    console.error('[viz] clearAllHighlight must be overwritten.')
   }
 }
 

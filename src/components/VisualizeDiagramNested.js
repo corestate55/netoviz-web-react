@@ -3,6 +3,11 @@ import VisualizeDiagramBase from './VisualizeDiagramBase'
 import '../lib/style/nested.scss'
 
 class VisualizeDiagramNested extends VisualizeDiagramBase {
+  constructor(props) {
+    super(props)
+    this.visualizerName = 'nested'
+  }
+
   makeVisualizer(width, height) {
     return new NestedDiagramVisualizer(width, height)
   }
@@ -16,14 +21,18 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
     const dummyParams = {
       reverse: false,
       depth: 2,
-      layer: this.currentAlertRow?.layer,
+      layer: this.state.currentAlertRow?.layer,
       fitGrid: true
     }
     this.visualizer.drawRfcTopologyData(
-      this.modelFile,
-      this.currentAlertRow,
+      this.state.modelFile,
+      this.state.currentAlertRow,
       dummyParams
     )
+  }
+
+  clearAllHighlight() {
+    this.visualizer.clearAllAlertHighlight()
   }
 }
 
