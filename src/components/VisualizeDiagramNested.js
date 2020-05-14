@@ -46,26 +46,27 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
   renderAdditionalForm() {
     return (
       <div>
-        <form onChange={this.doChangeView}>
-          <label>
-            <input
-              type="radio"
-              name="view"
-              value="standard"
-              checked={!this.state.reverse}
-            />
-            Top
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="view"
-              value="reverse"
-              checked={this.state.reverse}
-            />
-            Bottom
-          </label>
-        </form>
+        <label>
+          <input
+            type="radio"
+            name="view"
+            value="standard"
+            checked={!this.state.reverse}
+            onChange={this.doChangeView}
+          />
+          Top
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="view"
+            value="reverse"
+            checked={this.state.reverse}
+            onChange={this.doChangeView}
+          />
+          Bottom
+        </label>
+        &nbsp;
         <label>
           Depth
           <input
@@ -74,6 +75,7 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
             value={this.state.depth}
           />
         </label>
+        &nbsp;
         <label>
           Fit Grid
           <input
