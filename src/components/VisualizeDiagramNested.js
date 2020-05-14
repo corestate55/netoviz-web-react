@@ -48,21 +48,39 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
       <div>
         <form onChange={this.doChangeView}>
           <label>
-            <input type="radio" name="view" value="standard" />
+            <input
+              type="radio"
+              name="view"
+              value="standard"
+              checked={!this.state.reverse}
+            />
             Top
           </label>
           <label>
-            <input type="radio" name="view" value="reverse" />
+            <input
+              type="radio"
+              name="view"
+              value="reverse"
+              checked={this.state.reverse}
+            />
             Bottom
           </label>
         </form>
         <label>
           Depth
-          <input type="text" onChange={this.doChangeDepth} />
+          <input
+            type="text"
+            onChange={this.doChangeDepth}
+            value={this.state.depth}
+          />
         </label>
         <label>
           Fit Grid
-          <input type="checkbox" onChange={this.doChangeFitGrid} />
+          <input
+            type="checkbox"
+            onChange={this.doChangeFitGrid}
+            checked={this.state.fitGrid}
+          />
         </label>
       </div>
     )
@@ -89,7 +107,7 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
   }
 
   drawRfcTopologyData() {
-    const dummyParams = {
+    const params = {
       reverse: this.state.reverse,
       depth: this.state.depth,
       layer: this.state.currentAlertRow?.layer,
@@ -98,7 +116,7 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
     this.visualizer.drawRfcTopologyData(
       this.state.modelFile,
       this.state.currentAlertRow,
-      dummyParams
+      params
     )
   }
 

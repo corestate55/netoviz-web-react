@@ -18,7 +18,7 @@ class VisualizeDiagramBase extends Component {
     return (
       <div>
         <div className="debug">
-          VisualizeDiagram: {this.visualizerName}, {this.state.modelFile}
+          VisualizeDiagram [{this.visualizerName}]: {this.state.modelFile}
         </div>
         <div id="visualizer" />
       </div>

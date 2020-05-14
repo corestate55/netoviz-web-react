@@ -18,13 +18,13 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
   }
 
   drawRfcTopologyData() {
-    const dummyParam = {
+    const params = {
       layer: this.state.currentAlertRow?.layer
     }
     this.visualizer.drawRfcTopologyData(
       this.state.modelFile,
       this.state.currentAlertRow,
-      dummyParam
+      params
     )
   }
 
