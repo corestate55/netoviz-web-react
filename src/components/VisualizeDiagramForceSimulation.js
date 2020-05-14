@@ -13,7 +13,14 @@ class VisualizeDiagramForceSimulation extends VisualizeDiagramBase {
   }
 
   drawRfcTopologyData() {
-    this.visualizer.drawRfcTopologyData(this.modelFile, this.currentAlertRow)
+    this.visualizer.drawRfcTopologyData(
+      this.state.modelFile,
+      this.state.currentAlertRow
+    )
+  }
+
+  clearAllHighlight() {
+    this.visualizer.clearAllHighlight()
   }
 }
 
