@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import '../lib/style/common.scss'
 
 class VisualizeDiagramBase extends Component {
   constructor(props) {
@@ -16,12 +17,8 @@ class VisualizeDiagramBase extends Component {
   render() {
     return (
       <div>
-        <div>
-          VisualizeDiagramBase:
-          <ul>
-            <li>{this.visualizerName}</li>
-            <li>{this.state.modelFile}</li>
-          </ul>
+        <div className="debug">
+          VisualizeDiagram [{this.visualizerName}]: {this.state.modelFile}
         </div>
         <div id="visualizer" />
       </div>
