@@ -1,6 +1,6 @@
-import DependencyDiagramVisualizer from './lib/diagram/dependency/visualizer'
+import DependencyDiagramVisualizer from '../lib/diagram/dependency/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
-import './lib/style/dependency.scss'
+import '../lib/style/dependency.scss'
 
 class VisualizeDiagramDependency extends VisualizeDiagramBase {
   makeVisualizer(width, height) {

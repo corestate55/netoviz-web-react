@@ -5,7 +5,7 @@ import VisualizeDiagramDependency from './VisualizeDiagramDependency'
 import VisualizeDiagramDependency2 from './VisualizeDiagramDependency2'
 import VisualizeDiagramNested from './VisualizeDiagramNested'
 import VisualizeDiagramDistance from './VisualizeDiagramDistance'
-import './lib/style/tooltip.scss'
+import '../lib/style/tooltip.scss'
 
 class VisualizeDiagram extends Component {
   constructor(props) {

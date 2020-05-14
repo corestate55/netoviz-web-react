@@ -1,6 +1,6 @@
-import DistanceDiagramVisualizer from './lib/diagram/distance/visualizer'
+import DistanceDiagramVisualizer from '../lib/diagram/distance/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
-import './lib/style/distance.scss'
+import '../lib/style/distance.scss'
 
 class VisualizeDiagramDistance extends VisualizeDiagramBase {
   makeVisualizer(width, height) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import VisualizeDiagram from './VisualizeDiagram'
+import VisualizeDiagram from './components/VisualizeDiagram'
 import './lib/style/common.scss'
 
 class App extends React.Component {

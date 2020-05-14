@@ -1,6 +1,6 @@
-import NestedDiagramVisualizer from './lib/diagram/nested/visualizer'
+import NestedDiagramVisualizer from '../lib/diagram/nested/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
-import './lib/style/nested.scss'
+import '../lib/style/nested.scss'
 
 class VisualizeDiagramNested extends VisualizeDiagramBase {
   makeVisualizer(width, height) {
