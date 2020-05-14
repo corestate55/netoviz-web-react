@@ -2,6 +2,7 @@ import React from 'react'
 import VisualizeDiagram from './components/VisualizeDiagram'
 import AppSelectVisualizers from './components/AppSelectVisualizers'
 import AppInputModelFile from './components/AppInputModelFile'
+import AppInputAlertHost from './components/AppInputAlertHost'
 import './index.scss'
 
 class App extends React.Component {
@@ -46,6 +47,7 @@ class App extends React.Component {
           value={this.state.modelFile}
           onChange={this.doChangeInputModelFile}
         />
+        <AppInputAlertHost />
         <hr />
         <VisualizeDiagram
           modelFile={this.state.modelFile}

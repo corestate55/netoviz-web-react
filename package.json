@@ -6,10 +6,6 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
     "d3-drag": "^1.2.5",
     "d3-fetch": "^1.1.2",
     "d3-force": "^2.0.1",
@@ -21,7 +17,13 @@
     "google-protobuf": "^3.11.4",
     "grpc": "^1.24.2",
     "grpc-web": "^1.0.7",
-    "localStorage": "^1.0.4"
+    "localStorage": "^1.0.4",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-scripts": "3.4.1",
+    "redux": "^4.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
