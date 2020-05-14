@@ -1,0 +1,19 @@
+version: "3"
+services:
+  proxy-server:
+    image: netoviz/envoy
+    container_name: nv-envoy
+    env_file: .env
+    ports:
+      - "${REACT_APP_NETOVIZ_GRPC_WEB_PORT}:8080"
+      - "${ENVOY_MGMT_PORT}:9901"
+    depends_on:
+      - app-server
+  app-server:
+    image: netoviz/app-server
+    container_name: nv-app
+    env_file: .env
+    ports:
+      - "${REACT_APP_NETOVIZ_REST_PORT}:3001"
+    expose:
+      - "9090"
