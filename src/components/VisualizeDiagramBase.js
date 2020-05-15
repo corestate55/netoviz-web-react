@@ -10,15 +10,41 @@ class VisualizeDiagramBase extends Component {
     this.svgHeight = 600
     this.state = {
       modelFile: props.modelFile,
-      currentAlertRow: { host: 'Seg.A', layer: 'target-L3' }
+      alertHost: props.alertHost
     }
+    this.doChangeReduxTestInput = this.doChangeReduxTestInput.bind(this)
+  }
+
+  doChangeReduxTestInput(event) {
+    const nextAlertHost = event.target.value
+    console.log('[viz] change redux test input (alert host): ', nextAlertHost)
+    this.setState({ alertHost: nextAlertHost })
+    this.props.updateAlertHost(nextAlertHost)
+  }
+
+  renderReduxTestInput() {
+    return (
+      <input
+        type="text"
+        value={this.state.alertHost}
+        onChange={this.doChangeReduxTestInput}
+      />
+    )
   }
 
   render() {
     return (
       <div>
+        {this.renderReduxTestInput()}
         <div className="debug">
-          VisualizeDiagram [{this.visualizerName}]: {this.state.modelFile}
+          VisualizeDiagram [{this.visualizerName}]:
+          <ul>
+            <li>modelFile: {this.state.modelFile}</li>
+            <li>alertHost: {this.state.alertHost}</li>
+            <li>
+              currentAlertRow: {JSON.stringify(this.state.currentAlertRow)}
+            </li>
+          </ul>
         </div>
         <div id="visualizer" />
       </div>
@@ -26,7 +52,7 @@ class VisualizeDiagramBase extends Component {
   }
 
   componentDidMount() {
-    console.log(`[viz/${this.visualizerName}] did mount`)
+    console.log(`[viz/${this.visualizerName}] did mount`, this.props)
     this.beforeMakeVisualizer() // hook
     this.visualizer = this.makeVisualizer(this.svgWidth, this.svgHeight)
     this.afterMakeVisualizer() // hook
@@ -34,7 +60,7 @@ class VisualizeDiagramBase extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(`[viz/${this.visualizerName}] did update`)
+    console.log(`[viz/${this.visualizerName}] did update`, this.props)
     this.clearAllHighlight()
     this.drawRfcTopologyData()
     this.updateState(prevProps, prevState, snapshot)
@@ -49,11 +75,13 @@ class VisualizeDiagramBase extends Component {
 
   updateState(prevProps, prevState, snapshot) {
     // update state when props was updated.
-    if (this.state.modelFile !== this.props.modelFile) {
-      // TODO: check currentAlertRow update
+    if (
+      this.state.modelFile !== this.props.modelFile ||
+      this.state.alertHost !== this.props.alertHost
+    ) {
       this.setState(state => ({
         modelFile: this.props.modelFile,
-        currentAlertRow: state.currentAlertRow // keep
+        alertHost: this.props.alertHost
       }))
     }
   }
@@ -99,7 +127,9 @@ class VisualizeDiagramBase extends Component {
 }
 
 VisualizeDiagramBase.propTypes = {
-  modelFile: PropTypes.string.isRequired
+  modelFile: PropTypes.string.isRequired,
+  alertHost: PropTypes.string.isRequired, // mapped in sub-class (redux connect)
+  updateAlertHost: PropTypes.func.isRequired // mapped in sub-class (redux connect)
 }
 
 export default VisualizeDiagramBase

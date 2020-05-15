@@ -1,5 +1,7 @@
+import { connect } from 'react-redux'
 import DependencyDiagramVisualizer from '../lib/diagram/dependency/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
+import { mapStateToProps, mapDispatchToProps } from './VisualizeDiagramCommon'
 import '../lib/style/dependency.scss'
 
 class VisualizeDiagramDependency extends VisualizeDiagramBase {
@@ -25,4 +27,7 @@ class VisualizeDiagramDependency extends VisualizeDiagramBase {
   }
 }
 
-export default VisualizeDiagramDependency
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VisualizeDiagramDependency)

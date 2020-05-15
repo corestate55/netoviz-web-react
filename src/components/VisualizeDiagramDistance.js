@@ -1,5 +1,7 @@
+import { connect } from 'react-redux'
 import DistanceDiagramVisualizer from '../lib/diagram/distance/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
+import { mapStateToProps, mapDispatchToProps } from './VisualizeDiagramCommon'
 import '../lib/style/distance.scss'
 
 class VisualizeDiagramDistance extends VisualizeDiagramBase {
@@ -33,4 +35,7 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
   }
 }
 
-export default VisualizeDiagramDistance
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VisualizeDiagramDistance)

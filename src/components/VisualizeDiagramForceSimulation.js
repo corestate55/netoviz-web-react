@@ -1,5 +1,7 @@
+import { connect } from 'react-redux'
 import ForceSimulationDiagramVisualizer from '../lib/diagram/force-simulation/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
+import { mapStateToProps, mapDispatchToProps } from './VisualizeDiagramCommon'
 import '../lib/style/force-simulation.scss'
 
 class VisualizeDiagramForceSimulation extends VisualizeDiagramBase {
@@ -29,4 +31,7 @@ class VisualizeDiagramForceSimulation extends VisualizeDiagramBase {
   }
 }
 
-export default VisualizeDiagramForceSimulation
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VisualizeDiagramForceSimulation)

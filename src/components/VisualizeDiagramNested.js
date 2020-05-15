@@ -1,6 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import NestedDiagramVisualizer from '../lib/diagram/nested/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
+import { mapStateToProps, mapDispatchToProps } from './VisualizeDiagramCommon'
 import '../lib/style/nested.scss'
 
 class VisualizeDiagramNested extends VisualizeDiagramBase {
@@ -127,4 +129,7 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
   }
 }
 
-export default VisualizeDiagramNested
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VisualizeDiagramNested)
