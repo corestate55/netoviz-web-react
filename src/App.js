@@ -1,7 +1,7 @@
 import React from 'react'
 import VisualizeDiagram from './components/VisualizeDiagram'
 import AppSelectVisualizers from './components/AppSelectVisualizers'
-import AppInputModelFile from './components/AppInputModelFile'
+import AppSelectModelFiles from './components/AppSelectModelFiles'
 import AppInputAlertHost from './components/AppInputAlertHost'
 import './index.scss'
 
@@ -13,7 +13,7 @@ class App extends React.Component {
       visualizer: 'forceSimulation'
     }
     this.doChangeSelectVisualizers = this.doChangeSelectVisualizers.bind(this)
-    this.doChangeInputModelFile = this.doChangeInputModelFile.bind(this)
+    this.doChangeSelectModelFiles = this.doChangeSelectModelFiles.bind(this)
   }
 
   doChangeSelectVisualizers(event) {
@@ -22,7 +22,7 @@ class App extends React.Component {
     this.setState(state => ({ visualizer: targetVisualizer }))
   }
 
-  doChangeInputModelFile(event) {
+  doChangeSelectModelFiles(event) {
     const targetModelFile = event.target.value
     console.log('change input model file: ', targetModelFile)
     this.setState(state => ({ modelFile: targetModelFile }))
@@ -39,13 +39,13 @@ class App extends React.Component {
             <li>visualizer: {this.state.visualizer}</li>
           </ul>
         </div>
+        <AppSelectModelFiles
+          value={this.state.modelFile}
+          onChange={this.doChangeSelectModelFiles}
+        />
         <AppSelectVisualizers
           value={this.state.visualizer}
           onChange={this.doChangeSelectVisualizers}
-        />
-        <AppInputModelFile
-          value={this.state.modelFile}
-          onChange={this.doChangeInputModelFile}
         />
         <AppInputAlertHost />
         <hr />
