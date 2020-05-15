@@ -12,38 +12,18 @@ class VisualizeDiagramBase extends Component {
       modelFile: props.modelFile,
       alertHost: props.alertHost
     }
-    this.doChangeReduxTestInput = this.doChangeReduxTestInput.bind(this)
-  }
-
-  doChangeReduxTestInput(event) {
-    const nextAlertHost = event.target.value
-    console.log('[viz] change redux test input (alert host): ', nextAlertHost)
-    this.setState({ alertHost: nextAlertHost })
-    this.props.updateAlertHost(nextAlertHost)
-  }
-
-  renderReduxTestInput() {
-    return (
-      <input
-        type="text"
-        value={this.state.alertHost}
-        onChange={this.doChangeReduxTestInput}
-      />
-    )
+    // for Nested, Distance (set callback in afterMakeVisualizer)
+    this.nodeClickCallback = this.nodeClickCallback.bind(this)
   }
 
   render() {
     return (
       <div>
-        {this.renderReduxTestInput()}
         <div className="debug">
           VisualizeDiagram [{this.visualizerName}]:
           <ul>
             <li>modelFile: {this.state.modelFile}</li>
             <li>alertHost: {this.state.alertHost}</li>
-            <li>
-              currentAlertRow: {JSON.stringify(this.state.currentAlertRow)}
-            </li>
           </ul>
         </div>
         <div id="visualizer" />
@@ -123,6 +103,25 @@ class VisualizeDiagramBase extends Component {
   clearAllHighlight() {
     // function to clear all highlights in diagram(s).
     console.error('[viz] clearAllHighlight must be overwritten.')
+  }
+
+  nodeClickCallback(nodeData) {
+    // re-construct path with layer-name and name attribute,
+    // because path has deep-copy identifier (::N).
+    const path = [nodeData.path.split('__').shift(), nodeData.name].join('__')
+    this.props.updateAlertHost(path)
+  }
+
+  currentAlertRow() {
+    const paths = String(this.state.alertHost).split('__')
+    switch (paths.length) {
+      case 2: // layer__host
+        return { layer: paths[0], host: paths[1] }
+      case 3: // layer__host__tp
+        return { layer: paths[0], host: paths[2] }
+      default:
+        return { host: this.state.alertHost }
+    }
   }
 }
 

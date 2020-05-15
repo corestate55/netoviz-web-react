@@ -15,8 +15,7 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
   }
 
   afterMakeVisualizer() {
-    const dummyFunc = _nodeData => {} // no-op
-    this.visualizer.setUISideNodeClickHook(dummyFunc)
+    this.visualizer.setUISideNodeClickHook(this.nodeClickCallback)
   }
 
   drawRfcTopologyData() {
@@ -25,7 +24,7 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
     }
     this.visualizer.drawRfcTopologyData(
       this.state.modelFile,
-      this.state.currentAlertRow,
+      this.currentAlertRow(),
       params
     )
   }

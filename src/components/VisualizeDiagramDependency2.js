@@ -17,7 +17,7 @@ class VisualizeDiagramDependency2 extends VisualizeDiagramBase {
   drawRfcTopologyData() {
     this.visualizer.drawRfcTopologyData(
       this.state.modelFile,
-      this.state.currentAlertRow
+      this.currentAlertRow()
     )
   }
 
