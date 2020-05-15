@@ -1,13 +1,13 @@
 import { createStore } from 'redux'
+import { ActionType } from './actions'
 
 const initialAlertState = {
-  currentAlertRow: { id: -1 },
-  alertHost: 'test.json'
+  alertHost: 'GRT-vRT'
 }
 
 function alertReducer(state = initialAlertState, action) {
   switch (action.type) {
-    case 'UPDATE_ALERT_HOST':
+    case ActionType.UPDATE_ALERT_HOST:
       return {
         ...state,
         alertHost: action.payload.alertHost

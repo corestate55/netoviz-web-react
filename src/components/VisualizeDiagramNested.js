@@ -1,6 +1,8 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import NestedDiagramVisualizer from '../lib/diagram/nested/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
+import { mapStateToProps, mapDispatchToProps } from './VisualizeDiagramCommon'
 import '../lib/style/nested.scss'
 
 class VisualizeDiagramNested extends VisualizeDiagramBase {
@@ -104,22 +106,18 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
   }
 
   afterMakeVisualizer() {
-    const dummyFunc = _nodeData => {} // no-op
-    this.visualizer.setUISideNodeClickHook(dummyFunc)
+    this.visualizer.setUISideNodeClickHook(this.nodeClickCallback)
   }
 
   drawRfcTopologyData() {
+    const alertRow = this.currentAlertRow()
     const params = {
       reverse: this.state.reverse,
       depth: this.state.depth,
-      layer: this.state.currentAlertRow?.layer,
+      layer: alertRow?.layer,
       fitGrid: this.state.fitGrid
     }
-    this.visualizer.drawRfcTopologyData(
-      this.state.modelFile,
-      this.state.currentAlertRow,
-      params
-    )
+    this.visualizer.drawRfcTopologyData(this.state.modelFile, alertRow, params)
   }
 
   clearAllHighlight() {
@@ -127,4 +125,7 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
   }
 }
 
-export default VisualizeDiagramNested
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VisualizeDiagramNested)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { updateAlertHost } from '../store/actions'
 
 class AppInputAlertHost extends Component {
   constructor(props) {
@@ -25,31 +26,28 @@ class AppInputAlertHost extends Component {
     )
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.alertHost !== this.props.alertHost) {
+      this.setState({ alertHost: this.props.alertHost })
+    }
+  }
+
   doChange(event) {
     const nextAlertHost = event.target.value
     console.log('alert host input: ', nextAlertHost)
     this.setState({ alertHost: nextAlertHost })
-    this.props.onChange(nextAlertHost)
+    this.props.updateAlertHost(nextAlertHost)
   }
 }
 
 AppInputAlertHost.propTypes = {
   alertHost: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  updateAlertHost: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => {
-  return { alertHost: state.alertHost }
-}
-
-const mapDispatchToProps = (dispatch, _ownProps) => {
-  return {
-    onChange: alertHost =>
-      dispatch({
-        type: 'UPDATE_ALERT_HOST',
-        payload: { alertHost: alertHost }
-      })
-  }
-}
+const mapStateToProps = state => state
+const mapDispatchToProps = (dispatch, _ownProps) => ({
+  updateAlertHost: alertHost => dispatch(updateAlertHost(alertHost))
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppInputAlertHost)

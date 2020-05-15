@@ -1,5 +1,7 @@
+import { connect } from 'react-redux'
 import DistanceDiagramVisualizer from '../lib/diagram/distance/visualizer'
 import VisualizeDiagramBase from './VisualizeDiagramBase'
+import { mapStateToProps, mapDispatchToProps } from './VisualizeDiagramCommon'
 import '../lib/style/distance.scss'
 
 class VisualizeDiagramDistance extends VisualizeDiagramBase {
@@ -13,8 +15,7 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
   }
 
   afterMakeVisualizer() {
-    const dummyFunc = _nodeData => {} // no-op
-    this.visualizer.setUISideNodeClickHook(dummyFunc)
+    this.visualizer.setUISideNodeClickHook(this.nodeClickCallback)
   }
 
   drawRfcTopologyData() {
@@ -23,7 +24,7 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
     }
     this.visualizer.drawRfcTopologyData(
       this.state.modelFile,
-      this.state.currentAlertRow,
+      this.currentAlertRow(),
       params
     )
   }
@@ -33,4 +34,7 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
   }
 }
 
-export default VisualizeDiagramDistance
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(VisualizeDiagramDistance)

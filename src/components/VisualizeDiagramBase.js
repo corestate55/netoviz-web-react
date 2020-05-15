@@ -10,15 +10,21 @@ class VisualizeDiagramBase extends Component {
     this.svgHeight = 600
     this.state = {
       modelFile: props.modelFile,
-      currentAlertRow: { host: 'Seg.A', layer: 'target-L3' }
+      alertHost: props.alertHost
     }
+    // for Nested, Distance (set callback in afterMakeVisualizer)
+    this.nodeClickCallback = this.nodeClickCallback.bind(this)
   }
 
   render() {
     return (
       <div>
         <div className="debug">
-          VisualizeDiagram [{this.visualizerName}]: {this.state.modelFile}
+          VisualizeDiagram [{this.visualizerName}]:
+          <ul>
+            <li>modelFile: {this.state.modelFile}</li>
+            <li>alertHost: {this.state.alertHost}</li>
+          </ul>
         </div>
         <div id="visualizer" />
       </div>
@@ -26,7 +32,7 @@ class VisualizeDiagramBase extends Component {
   }
 
   componentDidMount() {
-    console.log(`[viz/${this.visualizerName}] did mount`)
+    console.log(`[viz/${this.visualizerName}] did mount`, this.props)
     this.beforeMakeVisualizer() // hook
     this.visualizer = this.makeVisualizer(this.svgWidth, this.svgHeight)
     this.afterMakeVisualizer() // hook
@@ -34,7 +40,7 @@ class VisualizeDiagramBase extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(`[viz/${this.visualizerName}] did update`)
+    console.log(`[viz/${this.visualizerName}] did update`, this.props)
     this.clearAllHighlight()
     this.drawRfcTopologyData()
     this.updateState(prevProps, prevState, snapshot)
@@ -49,11 +55,13 @@ class VisualizeDiagramBase extends Component {
 
   updateState(prevProps, prevState, snapshot) {
     // update state when props was updated.
-    if (this.state.modelFile !== this.props.modelFile) {
-      // TODO: check currentAlertRow update
+    if (
+      this.state.modelFile !== this.props.modelFile ||
+      this.state.alertHost !== this.props.alertHost
+    ) {
       this.setState(state => ({
         modelFile: this.props.modelFile,
-        currentAlertRow: state.currentAlertRow // keep
+        alertHost: this.props.alertHost
       }))
     }
   }
@@ -96,10 +104,31 @@ class VisualizeDiagramBase extends Component {
     // function to clear all highlights in diagram(s).
     console.error('[viz] clearAllHighlight must be overwritten.')
   }
+
+  nodeClickCallback(nodeData) {
+    // re-construct path with layer-name and name attribute,
+    // because path has deep-copy identifier (::N).
+    const path = [nodeData.path.split('__').shift(), nodeData.name].join('__')
+    this.props.updateAlertHost(path)
+  }
+
+  currentAlertRow() {
+    const paths = String(this.state.alertHost).split('__')
+    switch (paths.length) {
+      case 2: // layer__host
+        return { layer: paths[0], host: paths[1] }
+      case 3: // layer__host__tp
+        return { layer: paths[0], host: paths[2] }
+      default:
+        return { host: this.state.alertHost }
+    }
+  }
 }
 
 VisualizeDiagramBase.propTypes = {
-  modelFile: PropTypes.string.isRequired
+  modelFile: PropTypes.string.isRequired,
+  alertHost: PropTypes.string.isRequired, // mapped in sub-class (redux connect)
+  updateAlertHost: PropTypes.func.isRequired // mapped in sub-class (redux connect)
 }
 
 export default VisualizeDiagramBase
