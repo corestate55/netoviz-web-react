@@ -33,19 +33,21 @@ class AppSelectVisualizers extends Component {
   }
 
   _renderSelectVisualizers() {
-    return this.visualizers.map(v => (
-      <label key={v.value}>
-        <input
-          type="radio"
-          name="visualizers"
-          id={v.value}
-          value={v.value}
-          checked={v.value === this.props.value}
-          onChange={this.doChange}
-        />
-        {v.text}
-      </label>
-    ))
+    return (
+      <div>
+        <label htmlFor="select-visualizers">Visualizer: </label>
+        <select id="select-visualizers" onChange={this.doChange}>
+          {this.visualizers.map(v => (
+            <option
+              key={v.value}
+              value={v.value}
+              defaultValue={this.state.value}>
+              {v.text}
+            </option>
+          ))}
+        </select>
+      </div>
+    )
   }
 
   render() {
