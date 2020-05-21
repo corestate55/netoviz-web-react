@@ -31,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js .",
-    "lint:fix": "eslint --fix --ext .js ."
+    "lint:fix": "eslint --fix --ext .js .",
+    "docker-build": "docker build -t netoviz/web-react ."
   },
   "browserslist": {
     "production": [
