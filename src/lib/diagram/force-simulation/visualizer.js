@@ -6,10 +6,10 @@ import { select } from 'd3-selection'
 import { json } from 'd3-fetch'
 import { interval } from 'd3-timer'
 import grpcClient from '../../grpc-client'
-import { restURIBase } from '../../uri'
+import BaseContainer from '../../../server/graph/common/base'
+import { splitAlertHost } from '../../../server/api/common/alert-util'
 import PositionCache from './position-cache'
 import ForceSimulationDiagramOperator from './operator'
-import BaseContainer from '../../../server/graph/common/base'
 
 /**
  * Force-simulation network diagram visualizer.
@@ -17,14 +17,16 @@ import BaseContainer from '../../../server/graph/common/base'
  */
 class ForceSimulationDiagramVisualizer extends BaseContainer {
   /**
-   * @override
+   * @param {VisualizerAPIParam} apiParam
    */
-  constructor() {
+  constructor(apiParam) {
     super()
     /** @type {PositionCache} */
     this.positionCache = new PositionCache()
     /** @type {Array<ForceSimulationDiagramOperator>} */
     this.diagramOperators = []
+    /** @const {VisualizerAPIParam} */
+    this.apiParam = apiParam
   }
 
   /**
@@ -45,11 +47,10 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
   /**
    * Draw topology data as diagram.
    * @param {ForceSimulationTopologyData} topologyData - Topology data.
-   * @param {string} jsonName - File name of topology-data.json.
-   * @param {AlertRow} alert - Selected alert.
+   * @param {TopologyDiagramParam} params
    * @private
    */
-  _drawRfcTopologyData(topologyData, jsonName, alert) {
+  _drawRfcTopologyData(topologyData, params) {
     /**
      * Topology data to draw converted from topology json
      * @type {ForceSimulationTopologyData}
@@ -59,47 +60,45 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
      * set auto save fixed node position function
      * @type {string}
      */
-    this.storageKey = `netoviz-${jsonName}`
+    this.storageKey = `netoviz-${params.modelFile}`
     interval(() => {
       this.positionCache.saveTopology(this.storageKey, this.topologyData)
     }, 5000)
     this.uiSideDrawRfcTopologyCallback(this.topologyData)
     // draw
     this._drawNetworkDiagrams()
-    this.highlightByAlert(alert)
+    this.highlightByAlert(params.alertHost)
   }
 
   /**
    * Get topology data using gRPC API and draw its diagram.
-   * @param {string} jsonName - File name of topology-data.json.
-   * @param {AlertRow} alert - Selected alert.
+   * @param {TopologyDiagramParam} params
    * @private
    */
-  _getGraphDataViaGRPC(jsonName, alert) {
-    const graphName = `FORCE_SIMULATION`
-    const params = { target: alert?.host || '' }
-    grpcClient.getGraphData(graphName, jsonName, params).then(
-      response => {
-        const topologyData = JSON.parse(response.getJson())
-        this._drawRfcTopologyData(topologyData, jsonName, alert)
-      },
-      error => {
-        throw error
-      }
-    )
+  _getGraphDataViaGRPC(params) {
+    grpcClient(this.apiParam.grpcURIBase)
+      .getGraphData(`FORCE_SIMULATION`, params)
+      .then(
+        response => {
+          const topologyData = JSON.parse(response.getJson())
+          this._drawRfcTopologyData(topologyData, params)
+        },
+        error => {
+          throw error
+        }
+      )
   }
 
   /**
    * Get topology data using REST API and draw its diagram.
-   * @param {string} jsonName - File name of topology-data.json.
-   * @param {AlertRow} alert - Selected alert.
+   * @param {TopologyDiagramParam} params
    * @private
    */
-  _getGraphDataViaREST(jsonName, alert) {
-    const uriBase = restURIBase()
-    json(`${uriBase}/api/graph/forceSimulation/${jsonName}`).then(
+  _getGraphDataViaREST(params) {
+    const restURI = '/api/graph/forceSimulation/'
+    json([this.apiParam.restURIBase, restURI, params.modelFile].join('')).then(
       topologyData => {
-        this._drawRfcTopologyData(topologyData, jsonName, alert)
+        this._drawRfcTopologyData(topologyData, params)
       },
       error => {
         throw error
@@ -109,15 +108,14 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
 
   /**
    * Draw network diagram with topology-data.
-   * @param {string} jsonName - File name of topology-data json.
-   * @param {AlertRow} alert - Selected alert.
+   * @param {TopologyDiagramParam} params
    * @public
    */
-  drawRfcTopologyData(jsonName, alert) {
-    if (process.env.NODE_ENV === 'development') {
-      this._getGraphDataViaGRPC(jsonName, alert)
+  drawRfcTopologyData(params) {
+    if (this.apiParam.use === 'grpc') {
+      this._getGraphDataViaGRPC(params)
     } else {
-      this._getGraphDataViaREST(jsonName, alert)
+      this._getGraphDataViaREST(params)
     }
   }
 
@@ -215,14 +213,14 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
   }
 
   /**
-   * Highlight node with selected host in alert-table.
-   * @param {AlertRow} alert - Selected alert.
-   * @public
+   * @override
    */
-  highlightByAlert(alert) {
-    if (!alert || !this.topologyData) {
+  highlightByAlert(alertHost) {
+    if (!alertHost || !this.topologyData) {
       return
     }
+    const alert = splitAlertHost(alertHost)
+
     this._clearAllDiagramsHighlight()
     // find and select (highlight) a node
     //   network(layer) order is assumed as high -> low

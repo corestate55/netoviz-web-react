@@ -10,15 +10,20 @@ class VisualizeDiagramDependency extends VisualizeDiagramBase {
     this.visualizerName = 'dependency'
   }
 
-  makeVisualizer(width, height) {
-    return new DependencyDiagramVisualizer(width, height)
+  makeVisualizer() {
+    return new DependencyDiagramVisualizer(
+      this.apiParam(),
+      this.svgWidth,
+      this.svgHeight
+    )
   }
 
   drawRfcTopologyData() {
-    this.visualizer.drawRfcTopologyData(
-      this.state.modelFile,
-      this.currentAlertRow()
-    )
+    const params = {
+      modelFile: this.state.modelFile,
+      alertHost: this.state.alertHost
+    }
+    this.visualizer.drawRfcTopologyData(params)
   }
 
   clearAllHighlight() {

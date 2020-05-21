@@ -7,39 +7,26 @@ import grpcClient from '../grpc-client'
 
 /**
  * Get alerts using gRPC.
+ * @param {VisualizerAPIParam} apiParams
  * @param {number} alertLimit - Number of alerts.
  * @returns {Promise<Array<AlertData>>} - Alerts.
  */
-const getAlertsViaGRPC = async alertLimit => {
-  const response = await grpcClient.getAlerts(alertLimit)
+export const getAlertsViaGRPC = async (apiParams, alertLimit) => {
+  const response = await grpcClient(apiParams.grpcURIBase).getAlerts(alertLimit)
   return response.toObject().alertsList
 }
 
 /**
  * Get alerts using REST.
+ * @param {VisualizerAPIParam} apiParams
  * @param {number} alertLimit - Number of alerts.
  * @returns {Promise<Array<AlertData>>} - Alerts.
  */
-const getAlertsViaREST = async alertLimit => {
-  const response = await fetch(`/api/alert/${alertLimit}`)
+export const getAlertsViaREST = async (apiParams, alertLimit) => {
+  const response = await fetch(
+    apiParams.restURIBase + `/api/alert/${alertLimit}`
+  )
   return response.json()
-}
-
-/**
- * Get alerts.
- * @param {number} alertLimit - Number of alerts.
- * @returns {Promise<Array<AlertData>>} - Alerts.
- */
-export const getAlertsFromServer = async alertLimit => {
-  try {
-    if (process.env.NODE_ENV === 'development') {
-      return await getAlertsViaGRPC(alertLimit)
-    } else {
-      return await getAlertsViaREST(alertLimit)
-    }
-  } catch (error) {
-    console.error('[getAlertsFromServer] get alerts failed: ', error)
-  }
 }
 
 /**

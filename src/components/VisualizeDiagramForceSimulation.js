@@ -10,8 +10,8 @@ class VisualizeDiagramForceSimulation extends VisualizeDiagramBase {
     this.visualizerName = 'forceSimulation'
   }
 
-  makeVisualizer(_width, _height) {
-    return new ForceSimulationDiagramVisualizer()
+  makeVisualizer() {
+    return new ForceSimulationDiagramVisualizer(this.apiParam())
   }
 
   afterMakeVisualizer() {
@@ -20,10 +20,11 @@ class VisualizeDiagramForceSimulation extends VisualizeDiagramBase {
   }
 
   drawRfcTopologyData() {
-    this.visualizer.drawRfcTopologyData(
-      this.state.modelFile,
-      this.currentAlertRow()
-    )
+    const params = {
+      modelFile: this.state.modelFile,
+      alertHost: this.state.alertHost
+    }
+    this.visualizer.drawRfcTopologyData(params)
   }
 
   clearAllHighlight() {

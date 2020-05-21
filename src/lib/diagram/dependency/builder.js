@@ -10,16 +10,20 @@ import MultilayerDiagramBase from '../common/multilayer-diagram-base'
  */
 class DependencyDiagramBuilder extends MultilayerDiagramBase {
   /**
+   * @param {VisualizerAPIParam} apiParam
    * @param {number} width - Width of diagram. (SVG canvas)
    * @param {number} height - height of diagram. (SVG canvas)
    */
-  constructor(width, height) {
-    super('DEPENDENCY')
+  constructor(apiParam, width, height) {
+    super('DEPENDENCY', apiParam)
+
     // canvas size
     /** @type {number} */
     this.width = width
     /** @type {number} */
     this.height = height
+
+    // constants
     /** @const {number} */
     this.fontSize = 20
   }

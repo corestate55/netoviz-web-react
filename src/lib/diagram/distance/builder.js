@@ -11,11 +11,13 @@ import MultilayerDiagramBase from '../common/multilayer-diagram-base'
  */
 class DistanceDiagramBuilder extends MultilayerDiagramBase {
   /**
+   * @param {VisualizerAPIParam} apiParam
    * @param {number} width - Width of diagram. (SVG canvas)
    * @param {number} height - height of diagram. (SVG canvas)
    */
-  constructor(width, height) {
-    super('DISTANCE')
+  constructor(apiParam, width, height) {
+    super('DISTANCE', apiParam)
+
     // canvas size
     /** @type {number} */
     this.width = width

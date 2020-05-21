@@ -18,20 +18,24 @@
  * } AllTopologyData
  */
 /**
- * Visualizer parameters.
- * @typedef {Object} VisualizerParam
- * @prop {string} [target] - Target node/tp name to highlight. (see AlertRow.host)
- * @prop {boolean} [reverse] - Flag for top/bottom view selection.
- * @prop {number} [depth] - Maximum layer depth to display.
- * @prop {string} [layer] - Layer name of selected node to highlight.
- *     (used-in click-hook, to drill-down by click)
- * @prop {boolean} [fitGrid] - Flag for enable/disable grid-fitting.
- * @prop {boolean} [aggregate] - Flag for enable/disable node aggregation.
+ * @typedef {Object} TopologyDiagramParam
+ * @prop {string} modelFile - File name of topology-data (.json).
+ * @prop {string} alertHost - Host(TP) path to highlight.
+ * @prop {boolean} [reverse] - Viewpoint flag (for nested diagram)
+ * @prop {number} [depth] - Nest depth (for nested diagram)
+ * @prop {boolean} [aggregate] - Node aggregate flag (for nested diagram)
+ * @prop {boolean} [fitGrid] - Grid fitting flag (for nested diagram)
+ */
+/**
+ * @typedef {Object} VisualizerAPIParam
+ * @prop {string} use - API type to connect application server.
+ * @prop {string} grpcURIBase - gRPC API URI.
+ * @prop {string} restURIBase - REST API URI.
  */
 
 import { json } from 'd3-fetch'
 import grpcClient from '../../grpc-client'
-import { restURIBase } from '../../uri'
+import { splitAlertHost } from '../../../server/api/common/alert-util'
 import DiagramBase from './diagram-base'
 
 /**
@@ -39,7 +43,11 @@ import DiagramBase from './diagram-base'
  * @extends {DiagramBase}
  */
 class MultilayerDiagramBase extends DiagramBase {
-  constructor(graphName) {
+  /**
+   * @param {string} graphName - Graph name.
+   * @param {VisualizerAPIParam} apiParam
+   */
+  constructor(graphName, apiParam) {
     super()
 
     /**
@@ -47,12 +55,14 @@ class MultilayerDiagramBase extends DiagramBase {
      * @type {string}
      */
     this.graphName = graphName
+    /** @const {VisualizerAPIParam} */
+    this.apiParam = apiParam
   }
 
   /**
    * Operation to do after draw RFC topology data.
    *   (define its operation to override.)
-   * @param {VisualizerParam} params - Parameters.
+   * @param {TopologyDiagramParam} params - Parameters.
    * @protected
    */
   afterDrawRfcTopologyDataHook(params) {
@@ -61,39 +71,35 @@ class MultilayerDiagramBase extends DiagramBase {
 
   /**
    * Get graph data with gRPC API and draw it.
-   * @param {string} jsonName - Name of topology file.
-   * @param {AlertRow} alert - Selected alert.
-   * @param {VisualizerParam} params - Parameters.
+   * @params {TopologyDiagramParam} params
    * @protected
    */
-  getGraphDataViaGRPC(jsonName, alert, params) {
-    params.target = this.targetNameFromAlert(alert)
-    grpcClient.getGraphData(this.graphName, jsonName, params).then(
-      response => {
-        const topologyData = JSON.parse(response.getJson())
-        this.drawRfcTopologyDataAsDiagram(topologyData, alert)
-        this.afterDrawRfcTopologyDataHook(params)
-      },
-      error => {
-        throw error
-      }
-    )
+  getGraphDataViaGRPC(params) {
+    grpcClient(this.apiParam.grpcURIBase)
+      .getGraphData(this.graphName, params)
+      .then(
+        response => {
+          const topologyData = JSON.parse(response.getJson())
+          this.drawRfcTopologyDataAsDiagram(topologyData, params)
+          this.afterDrawRfcTopologyDataHook(params)
+        },
+        error => {
+          throw error
+        }
+      )
   }
 
   /**
    * Get graph data with REST API and draw it.
-   * @param {string} jsonName - Name of topology file.
-   * @param {AlertRow} alert - Selected alert.
-   * @param {VisualizerParam} params - Parameters.
+   * @params {TopologyDiagramParam} params
    * @protected
    */
-  getGraphDataViaREST(jsonName, alert, params) {
+  getGraphDataViaREST(params) {
     const snake2Camel = str =>
       str.toLowerCase().replace(/_./g, s => s.charAt(1).toUpperCase())
-    params.target = this.targetNameFromAlert(alert)
-    json(this.restURI(snake2Camel(this.graphName), jsonName, params)).then(
+    json(this.restURI(snake2Camel(this.graphName), params)).then(
       topologyData => {
-        this.drawRfcTopologyDataAsDiagram(topologyData, alert)
+        this.drawRfcTopologyDataAsDiagram(topologyData, params)
         this.afterDrawRfcTopologyDataHook(params)
       },
       error => {
@@ -103,17 +109,15 @@ class MultilayerDiagramBase extends DiagramBase {
   }
 
   /**
-   * Draw topology json data as SVG diagram.
-   * @param {string} jsonName - Name of topology file.
-   * @param {AlertRow} alert - Selected alert.
-   * @param {VisualizerParam} [params] - Parameters.
+   * Draw RFC Topology Data
+   * @param {TopologyDiagramParam} params
    * @public
    */
-  drawRfcTopologyData(jsonName, alert, params = {}) {
-    if (process.env.NODE_ENV === 'development') {
-      this.getGraphDataViaGRPC(jsonName, alert, params)
+  drawRfcTopologyData(params) {
+    if (this.apiParam.use === 'grpc') {
+      this.getGraphDataViaGRPC(params)
     } else {
-      this.getGraphDataViaREST(jsonName, alert, params)
+      this.getGraphDataViaREST(params)
     }
   }
 
@@ -137,58 +141,64 @@ class MultilayerDiagramBase extends DiagramBase {
   }
 
   /**
-   * Highlight node with selected host in alert-table.
-   * @param {AlertRow} alert - Selected alert.
-   * @abstract
-   * @public
-   */
-  highlightByAlert(alert) {
-    // to be override
-  }
-
-  /**
    * Draw topology data as diagram.
    * @param {AllTopologyData} topologyData - Topology data.
-   * @param {AlertRow} alert - Selected alert.
+   * @param {TopologyDiagramParam} params
    * @protected
    */
-  drawRfcTopologyDataAsDiagram(topologyData, alert) {
+  drawRfcTopologyDataAsDiagram(topologyData, params) {
     this.clearDiagramContainer()
     this.makeAllDiagramElements(topologyData)
     this.setAllDiagramElementsHandler()
-    this.highlightByAlert(alert)
+    this.highlightByAlert(params.alertHost)
   }
 
   /**
-   * Get Target name from alert.
-   * @param {AlertRow} alert - Alert data.
-   * @returns {string} Name of target to highlight.
-   * @protected
+   * Construct REST URI parameter strings
+   * @param {TopologyDiagramParam} params
+   * @returns {string} Params string.
+   * @private
    */
-  targetNameFromAlert(alert) {
-    return alert?.host || ''
+  _constructRestURIParams(params) {
+    const paramStrings = []
+    for (const [key, value] of Object.entries(/** @type {Object} */ params)) {
+      if (!value || key === 'modelFile') {
+        continue
+      }
+      paramStrings.push(`${key}=${encodeURIComponent(String(value))}`)
+    }
+    return paramStrings.join('&')
   }
 
   /**
    * Get REST API URI string with parameter string for netoviz API server.
    * @param {string} graphName - Name of graph. (diagram type)
-   * @param {string} jsonName - Name of topology file.
-   * @param {VisualizerParam} params - Parameter key-value dictionary.
+   * @param {TopologyDiagramParam} params
    * @returns {string} URI string.
    * @protected
    */
-  restURI(graphName, jsonName, params) {
-    const paramStrings = []
-    for (const [key, value] of Object.entries(/** @type {Object} */ params)) {
-      if (!value) {
-        continue
-      }
-      paramStrings.push(`${key}=${encodeURIComponent(String(value))}`)
-    }
-    const baseUri = `${restURIBase()}/api/graph/${graphName}/${jsonName}`
-    const uri = [baseUri, paramStrings.join('&')].join('?')
+  restURI(graphName, params) {
+    const paramString = this._constructRestURIParams(params)
+    const baseUri =
+      this.apiParam.restURIBase + `/api/graph/${graphName}/${params.modelFile}`
+    const uri = [baseUri, paramString].join('?')
     console.log('Query URI :', uri)
     return uri
+  }
+
+  // delegate
+  splitAlertHost(alertHost) {
+    return splitAlertHost(alertHost)
+  }
+
+  /**
+   * Highlight node with selected host in alert-table.
+   * @param {string} alertHost - Target host name
+   *   : 'layer__host__tp' or 'layer__host' or 'host' format.
+   * @public
+   */
+  highlightByAlert(alertHost) {
+    // to be override
   }
 }
 

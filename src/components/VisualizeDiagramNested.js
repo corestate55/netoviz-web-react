@@ -101,8 +101,12 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
     )
   }
 
-  makeVisualizer(width, height) {
-    return new NestedDiagramVisualizer(width, height)
+  makeVisualizer() {
+    return new NestedDiagramVisualizer(
+      this.apiParam(),
+      this.svgWidth,
+      this.svgHeight
+    )
   }
 
   afterMakeVisualizer() {
@@ -110,14 +114,15 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
   }
 
   drawRfcTopologyData() {
-    const alertRow = this.currentAlertRow()
     const params = {
+      modelFile: this.state.modelFile,
+      alertHost: this.state.alertHost,
       reverse: this.state.reverse,
       depth: this.state.depth,
-      layer: alertRow?.layer,
+      aggregate: false, // TODO
       fitGrid: this.state.fitGrid
     }
-    this.visualizer.drawRfcTopologyData(this.state.modelFile, alertRow, params)
+    this.visualizer.drawRfcTopologyData(params)
   }
 
   clearAllHighlight() {

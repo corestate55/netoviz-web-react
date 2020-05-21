@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import AppAPIBase from './AppAPIBase'
 import '../lib/style/common.scss'
 
-class VisualizeDiagramBase extends Component {
+class VisualizeDiagramBase extends AppAPIBase {
   constructor(props) {
     super(props)
     this.visualizerName = 'Base'
@@ -34,7 +35,7 @@ class VisualizeDiagramBase extends Component {
   componentDidMount() {
     console.log(`[viz/${this.visualizerName}] did mount`, this.props)
     this.beforeMakeVisualizer() // hook
-    this.visualizer = this.makeVisualizer(this.svgWidth, this.svgHeight)
+    this.visualizer = this.makeVisualizer()
     this.afterMakeVisualizer() // hook
     this.drawRfcTopologyData()
   }
@@ -66,7 +67,7 @@ class VisualizeDiagramBase extends Component {
     }
   }
 
-  makeVisualizer(width, height) {
+  makeVisualizer() {
     // return diagram visualizer as `this.visualizer`
     console.error('[viz] makeVisualizer must be overwritten.')
   }
@@ -110,18 +111,6 @@ class VisualizeDiagramBase extends Component {
     // because path has deep-copy identifier (::N).
     const path = [nodeData.path.split('__').shift(), nodeData.name].join('__')
     this.props.updateAlertHost(path)
-  }
-
-  currentAlertRow() {
-    const paths = String(this.state.alertHost).split('__')
-    switch (paths.length) {
-      case 2: // layer__host
-        return { layer: paths[0], host: paths[1] }
-      case 3: // layer__host__tp
-        return { layer: paths[0], host: paths[2] }
-      default:
-        return { host: this.state.alertHost }
-    }
   }
 }
 

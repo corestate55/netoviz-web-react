@@ -3,7 +3,6 @@
  */
 
 import { promisify } from 'util'
-import { grpcURIBase } from '../uri'
 import messages from '../../server/api/grpc/topology-data_pb'
 import services from '../../server/api/grpc/topology-data_grpc_web_pb'
 
@@ -11,12 +10,9 @@ import services from '../../server/api/grpc/topology-data_grpc_web_pb'
  * gRPC Client wrapper. (Singleton)
  */
 class GRPCClient {
-  constructor() {
-    // NOTICE: Nuxt.js uses server-side rendering,
-    //   so window/document will be "not defined".
-    //   See: nuxt.config.js plugin section (`ssr: false`) and here `process.client`
+  constructor(uri) {
     /** @const{string} */
-    this.uri = grpcURIBase()
+    this.uri = uri
     console.log('[GRPCClient], grpc-uri:', this.uri)
     /** @const{proto.netoviz.TopologyDataClient} */
     this.client = new services.TopologyDataClient(this.uri, null, null)
@@ -42,16 +38,14 @@ class GRPCClient {
   /**
    * Get graph data.
    * @param {string} graphName - Graph name. (Enum keyword of proto.netoviz.GraphName)
-   * @param {string} jsonName - Name of topology file.
-   * @param {VisualizerParam} params - Parameters.
+   * @param {TopologyDiagramParam} params - Parameters.
    * @returns {Promise<proto.netoviz.GraphReply>} - Response.
    */
-  getGraphData(graphName, jsonName, params) {
+  getGraphData(graphName, params) {
     const request = new messages.GraphRequest()
     request.setGraphName(messages.GraphName[graphName])
-    request.setJsonName(jsonName)
-    request.setTarget(params.target)
-    request.setLayer(params.layer)
+    request.setModelFile(params.modelFile)
+    request.setAlertHost(params.alertHost)
     request.setReverse(params.reverse)
     request.setDepth(params.depth)
     request.setAggregate(params.aggregate)
@@ -78,5 +72,12 @@ class GRPCClient {
   }
 }
 
-const grpcClient = new GRPCClient()
+const clientTable = {}
+const grpcClient = uri => {
+  if (!clientTable[uri]) {
+    clientTable[uri] = new GRPCClient(uri)
+  }
+  return clientTable[uri]
+}
+
 export default grpcClient

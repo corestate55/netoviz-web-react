@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import grpcClient from '../lib/grpc-client'
+import AppAPIBase from './AppAPIBase'
 import PropTypes from 'prop-types'
 
-class AppSelectModelFiles extends Component {
+class AppSelectModelFiles extends AppAPIBase {
   constructor(props) {
     super(props)
     this.state = {
@@ -13,11 +14,14 @@ class AppSelectModelFiles extends Component {
   }
 
   async updateModelFiles() {
-    if (process.env.NODE_ENV === 'development') {
-      const response = await grpcClient.getModels()
+    const apiParam = this.apiParam()
+    if (apiParam.use === 'grpc') {
+      const response = await grpcClient(apiParam.grpcURIBase).getModels()
       return JSON.parse(response.getJson())
     } else {
-      const response = await fetch('/api/models')
+      const response = await fetch(apiParam.restURIBase + '/api/models', {
+        mode: 'cors'
+      })
       return await response.json()
     }
   }

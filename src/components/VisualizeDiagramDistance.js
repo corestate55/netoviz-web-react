@@ -10,8 +10,12 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
     this.visualizerName = 'distance'
   }
 
-  makeVisualizer(width, height) {
-    return new DistanceDiagramVisualizer(width, height)
+  makeVisualizer() {
+    return new DistanceDiagramVisualizer(
+      this.apiParam(),
+      this.svgWidth,
+      this.svgHeight
+    )
   }
 
   afterMakeVisualizer() {
@@ -20,13 +24,10 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
 
   drawRfcTopologyData() {
     const params = {
-      layer: this.state.currentAlertRow?.layer
+      modelFile: this.state.modelFile,
+      alertHost: this.state.alertHost
     }
-    this.visualizer.drawRfcTopologyData(
-      this.state.modelFile,
-      this.currentAlertRow(),
-      params
-    )
+    this.visualizer.drawRfcTopologyData(params)
   }
 
   clearAllHighlight() {

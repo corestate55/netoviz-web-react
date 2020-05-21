@@ -11,11 +11,12 @@ import InterTpLinkCreator from './link-creator'
  */
 class NestedDiagramBuilder extends MultilayerDiagramBase {
   /**
+   * @param {VisualizerAPIParam} apiParam
    * @param {number} width - Width of SVG.
    * @param {number} height - Height of SVG.
    */
-  constructor(width, height) {
-    super('NESTED')
+  constructor(apiParam, width, height) {
+    super('NESTED', apiParam)
     // canvas size
     /** @type {number} */
     this.width = width
