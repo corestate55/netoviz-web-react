@@ -19,14 +19,6 @@ class VisualizeDiagramForceSimulation extends VisualizeDiagramBase {
     this.visualizer.setUISideDrawRfcTopologyHook(dummyFunc)
   }
 
-  drawRfcTopologyData() {
-    const params = {
-      modelFile: this.state.modelFile,
-      alertHost: this.state.alertHost
-    }
-    this.visualizer.drawRfcTopologyData(params)
-  }
-
   clearAllHighlight() {
     this.visualizer.clearAllHighlight()
   }

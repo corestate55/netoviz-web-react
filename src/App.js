@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      modelFile: 'target3b.json',
+      modelFile: '',
       visualizer: 'forceSimulation'
     }
     this.doChangeSelectVisualizers = this.doChangeSelectVisualizers.bind(this)

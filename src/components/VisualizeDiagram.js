@@ -51,7 +51,7 @@ class VisualizeDiagram extends Component {
     )
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     // update state when props was updated.
     if (
       this.state.visualizer !== this.props.visualizer ||

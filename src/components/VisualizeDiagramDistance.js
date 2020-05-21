@@ -22,14 +22,6 @@ class VisualizeDiagramDistance extends VisualizeDiagramBase {
     this.visualizer.setUISideNodeClickHook(this.nodeClickCallback)
   }
 
-  drawRfcTopologyData() {
-    const params = {
-      modelFile: this.state.modelFile,
-      alertHost: this.state.alertHost
-    }
-    this.visualizer.drawRfcTopologyData(params)
-  }
-
   clearAllHighlight() {
     this.visualizer.clearHighlight()
   }

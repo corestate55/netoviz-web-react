@@ -73,8 +73,11 @@ class VisualizeDiagramBase extends AppAPIBase {
   }
 
   drawRfcTopologyData() {
-    // function to generate diagram using visualizer.
-    console.error('[viz] drawRfcTopologyData must be overwrite.')
+    if (!this.state.modelFile) {
+      return
+    }
+    // copy state as argument
+    this.visualizer.drawRfcTopologyData({ ...this.state })
   }
 
   beforeMakeVisualizer() {
@@ -91,14 +94,6 @@ class VisualizeDiagramBase extends AppAPIBase {
 
   afterDeleteVisualizer() {
     // optional: hook in beforeDestroy()
-  }
-
-  highlightByAlert(alertRow) {
-    if (alertRow) {
-      this.visualizer.highlightByAlert(alertRow)
-    } else {
-      this.clearAllHighlight()
-    }
   }
 
   clearAllHighlight() {

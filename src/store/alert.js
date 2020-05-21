@@ -2,7 +2,7 @@ import { createStore } from 'redux'
 import { ActionType } from './actions'
 
 const initialAlertState = {
-  alertHost: 'GRT-vRT'
+  alertHost: ''
 }
 
 function alertReducer(state = initialAlertState, action) {

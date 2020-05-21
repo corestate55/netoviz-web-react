@@ -127,18 +127,6 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
     this.visualizer.setUISideNodeClickHook(this.nodeClickCallback)
   }
 
-  drawRfcTopologyData() {
-    const params = {
-      modelFile: this.state.modelFile,
-      alertHost: this.state.alertHost,
-      reverse: this.state.reverse,
-      depth: this.state.depth,
-      aggregate: this.state.aggregate,
-      fitGrid: this.state.fitGrid
-    }
-    this.visualizer.drawRfcTopologyData(params)
-  }
-
   clearAllHighlight() {
     this.visualizer.clearAllAlertHighlight()
   }

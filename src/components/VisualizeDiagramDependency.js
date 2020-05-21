@@ -18,14 +18,6 @@ class VisualizeDiagramDependency extends VisualizeDiagramBase {
     )
   }
 
-  drawRfcTopologyData() {
-    const params = {
-      modelFile: this.state.modelFile,
-      alertHost: this.state.alertHost
-    }
-    this.visualizer.drawRfcTopologyData(params)
-  }
-
   clearAllHighlight() {
     this.visualizer.clearDependencyLines()
     this.visualizer.clearHighlight()

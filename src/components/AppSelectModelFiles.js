@@ -43,7 +43,9 @@ class AppSelectModelFiles extends AppAPIBase {
 
   componentDidMount() {
     this.updateModelFiles()
-      .then(modelFiles => this.setState({ modelFiles }))
+      .then(modelFiles => {
+        this.setState({ modelFiles, value: modelFiles[0].file })
+      })
       .catch(error =>
         console.log('[SelectModel] Cannot get models data: ', error)
       )
