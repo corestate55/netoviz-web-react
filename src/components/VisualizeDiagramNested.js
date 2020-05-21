@@ -10,17 +10,16 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
     super(props)
     this.visualizerName = 'nested'
     this.state = {
-      // keep
-      modelFile: this.state.modelFile,
-      currentAlertRow: this.state.currentAlertRow,
-      // append
+      ...this.state, // copy pre-defined state at super class.
       reverse: false,
       depth: 1,
-      fitGrid: false
+      fitGrid: false,
+      aggregate: true
     }
     this.doChangeView = this.doChangeView.bind(this)
     this.doChangeDepth = this.doChangeDepth.bind(this)
     this.doChangeFitGrid = this.doChangeFitGrid.bind(this)
+    this.doChangeAggregate = this.doChangeAggregate.bind(this)
   }
 
   doChangeView(event) {
@@ -43,6 +42,12 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
     const enableFitGrid = event.target.checked
     console.log('[nest] change fitGrid', enableFitGrid)
     this.setState({ fitGrid: enableFitGrid })
+  }
+
+  doChangeAggregate(event) {
+    const enableAggregate = event.target.checked
+    console.log('[nest] change aggregate', enableAggregate)
+    this.setState({ aggregate: enableAggregate })
   }
 
   renderAdditionalForm() {
@@ -86,6 +91,15 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
             checked={this.state.fitGrid}
           />
         </label>
+        &nbsp;
+        <label>
+          Aggregate
+          <input
+            type="checkbox"
+            onChange={this.doChangeAggregate}
+            checked={this.state.aggregate}
+          />
+        </label>
       </div>
     )
   }
@@ -119,7 +133,7 @@ class VisualizeDiagramNested extends VisualizeDiagramBase {
       alertHost: this.state.alertHost,
       reverse: this.state.reverse,
       depth: this.state.depth,
-      aggregate: false, // TODO
+      aggregate: this.state.aggregate,
       fitGrid: this.state.fitGrid
     }
     this.visualizer.drawRfcTopologyData(params)
