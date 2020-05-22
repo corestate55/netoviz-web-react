@@ -5,6 +5,6 @@ COPY ./dot.env /home/netoviz-web-react/.env
 COPY ./build /home/netoviz-web-react/
 RUN npm install -g serve
 
-EXPOSE 5000
+EXPOSE 3000
 
-CMD serve -s .
+CMD serve -s -l ${NETOVIZ_WEB_LISTEN} .
