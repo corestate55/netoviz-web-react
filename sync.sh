@@ -14,6 +14,6 @@ cp ${ORIG}/server/graph/rfc-model/base.js ${SRC}/server/graph/rfc-model/
 cp ${ORIG}/server/graph/rfc-model/*attr.js ${SRC}/server/graph/rfc-model/
 cp ${ORIG}/.editorconfig .
 cp ${ORIG}/.prettierrc .
-cp ${ORIG}/dot.env .
+# cp ${ORIG}/dot.env .
 
 # diff -u ${ORIG}/server/index.js ${HERE}/server/index.js

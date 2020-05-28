@@ -12,6 +12,12 @@
  */
 
 import { event } from 'd3-selection'
+import {
+  OpsNetworkAttribute,
+  OpsLinkAttribute,
+  OpsNodeAttribute,
+  OpsTermPointAttribute
+} from '../../../server/graph/rfc-model/elements-opsattr'
 import RfcL2LinkAttribute from '../../../server/graph/rfc-model/link-l2attr'
 import RfcL3LinkAttribute from '../../../server/graph/rfc-model/link-l3attr'
 import RfcL2NetworkAttribute from '../../../server/graph/rfc-model/network-l2attr'
@@ -35,7 +41,11 @@ const AttributeClassOf = {
   RfcL3NodeAttribute,
   RfcL2TermPointAttribute,
   RfcL3TermPointAttribute,
-  AggregatedNodeAttribute
+  AggregatedNodeAttribute,
+  OpsNetworkAttribute,
+  OpsLinkAttribute,
+  OpsNodeAttribute,
+  OpsTermPointAttribute
 }
 
 /**
