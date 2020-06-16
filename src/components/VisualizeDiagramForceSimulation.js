@@ -19,8 +19,7 @@ class VisualizeDiagramForceSimulation extends VisualizeDiagramBase {
   }
 
   afterMakeVisualizer() {
-    const dummyFunc = _layers => {} // no-op
-    this.visualizer.setUISideDrawRfcTopologyHook(dummyFunc)
+    this.visualizer.setUISideNodeClickHook(this.nodeClickCallback)
   }
 
   clearAllHighlight() {

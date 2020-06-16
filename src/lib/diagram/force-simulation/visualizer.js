@@ -27,6 +27,18 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
     this.diagramOperators = []
     /** @const {VisualizerAPIParam} */
     this.apiParam = apiParam
+
+    // callback default (NOP)
+    this.uiSideNodeClickCallback = nodeData => {}
+    this.uiSideDrawRfcTopologyCallback = topologyData => {}
+  }
+
+  /**
+   * @param {ForceSimulationDiagramOperator-uiSideNodeClickCallback} callback - Callback
+   */
+  setUISideNodeClickHook(callback) {
+    // keep callback to delegate for each layer-visualizer.
+    this.uiSideNodeClickCallback = callback
   }
 
   /**
@@ -162,6 +174,7 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
         networkDiagram
       )
       networkDiagram.restartSimulation()
+      networkDiagram.setUISideNodeClickHook(this.uiSideNodeClickCallback)
       this.diagramOperators.push(networkDiagram)
     }
   }

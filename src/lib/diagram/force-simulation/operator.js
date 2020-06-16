@@ -24,6 +24,20 @@ class ForceSimulationDiagramOperator extends ForceSimulationDiagramSimulator {
      */
     this.delayedClickCallback = null
     this._setAllDiagramElementsHandler()
+
+    // callback default (NOP)
+    this.uiSideNodeClickCallback = nodeData => {}
+  }
+
+  /**
+   * Hook of node-click event.
+   */
+  setUISideNodeClickHook(callback) {
+    /**
+     * @callback ForceSimulationDiagramOperator-uiSideNodeClickCallback
+     * @param {ForceSimulationNodeData} nodeData - Node data.
+     */
+    this.uiSideNodeClickCallback = callback
   }
 
   /**
@@ -128,11 +142,21 @@ class ForceSimulationDiagramOperator extends ForceSimulationDiagramSimulator {
   }
 
   /**
+   * Highlight node (main).
+   * @param {ForceSimulationNodeData} nodeData - Node data.
+   * @private
+   */
+  _highlightNode(nodeData) {
+    this.clearHighlight()
+    this._markFamilyNodeWith(nodeData, ['selected', true])
+  }
+
+  /**
    * Highlight node.
    * @param {ForceSimulationNodeData} nodeData - Node data.
    */
   highlightNode(nodeData) {
-    nodeData && this._clickOperation(nodeData)
+    nodeData && this._highlightNode(nodeData)
   }
 
   /**
@@ -153,8 +177,8 @@ class ForceSimulationDiagramOperator extends ForceSimulationDiagramSimulator {
    */
   _clickOperation(nodeData) {
     // console.log(`clicked: ${d.path}`)
-    this.clearHighlight()
-    this._markFamilyNodeWith(nodeData, ['selected', true])
+    this._highlightNode(nodeData)
+    this.uiSideNodeClickCallback(nodeData)
   }
 
   /**
