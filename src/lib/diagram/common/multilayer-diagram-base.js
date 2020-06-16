@@ -25,6 +25,7 @@
  * @prop {number} [depth] - Nest depth (for nested diagram)
  * @prop {boolean} [aggregate] - Node aggregate flag (for nested diagram)
  * @prop {boolean} [fitGrid] - Grid fitting flag (for nested diagram)
+ * @prop {boolean} [infoTable] - Node info flag (for force-simulation diagram)
  */
 /**
  * @typedef {Object} VisualizerAPIParam

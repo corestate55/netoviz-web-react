@@ -16,8 +16,8 @@ class ForceSimulationDiagramOperator extends ForceSimulationDiagramSimulator {
   /**
    * @override
    */
-  constructor(networkData, findNodeCallback) {
-    super(networkData, findNodeCallback)
+  constructor(networkData, findNodeCallback, params) {
+    super(networkData, findNodeCallback, params)
     /**
      * Click to double-click delay
      * @type {Timer}
@@ -200,7 +200,7 @@ class ForceSimulationDiagramOperator extends ForceSimulationDiagramSimulator {
    */
   _mouseOverHandler(nodeData) {
     // console.log(`mouse-over: ${d.path}`)
-    if (nodeData.type === 'node') {
+    if (this.enableInfoTable && nodeData.type === 'node') {
       this._appendTermPointInfoTable(nodeData)
     }
     this._markFamilyNodeWith(nodeData, ['select-ready', true])
@@ -318,7 +318,7 @@ class ForceSimulationDiagramOperator extends ForceSimulationDiagramSimulator {
   _setAllDiagramElementsHandler() {
     this._setRootSVGZoom()
     this._setDiagramElementsHandler()
-    this._setNodeInfoTableHandler()
+    this.enableInfoTable && this._setNodeInfoTableHandler()
     this.setDiagramControlButtonsHandler(this.clearHighlight)
   }
 }

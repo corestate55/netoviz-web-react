@@ -21,8 +21,8 @@ class ForceSimulationDiagramSimulator extends ForceSimulationDiagramBuilder {
   /**
    * @override
    */
-  constructor(networkData, findNodeCallback) {
-    super(networkData, findNodeCallback)
+  constructor(networkData, findNodeCallback, params) {
+    super(networkData, findNodeCallback, params)
     // params for simulation
     /**
      * @type {Timer}

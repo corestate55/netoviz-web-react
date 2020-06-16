@@ -23,16 +23,24 @@ class VisualizeDiagram extends Component {
     }
   }
 
+  _renderStates() {
+    const states = [<li key={'date'}>date: {new Date().toISOString()}</li>]
+    for (const [key, value] of Object.entries(this.state)) {
+      states.push(
+        <li key={key}>
+          {key}: {value}
+        </li>
+      )
+    }
+    return states
+  }
+
   render() {
     return (
       <div>
         <div className="debug">
           VisualizeDiagram:
-          <ul>
-            <li>date: {new Date().toISOString()}</li>
-            <li>model file: {this.state.modelFile}</li>
-            <li>visualizer: {this.state.visualizer}</li>
-          </ul>
+          <ul>{this._renderStates()}</ul>
         </div>
         {this.diagramByVisualizer()}
       </div>

@@ -151,8 +151,8 @@ class TooltipCreator {
     }
     // tooltip position
     this.tooltip
-      .style('top', `${event.pageY - 70}px`)
-      .style('left', `${event.pageX + 10}px`)
+      .style('top', `${event.pageY - 30}px`)
+      .style('left', `${event.pageX + 40}px`)
       .classed('pop-up', true)
       .classed('pop-down', false)
       .html(tooltipBody)

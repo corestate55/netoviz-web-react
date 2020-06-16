@@ -14,8 +14,9 @@ class ForceSimulationDiagramBuilder extends DiagramBase {
    * @param {ForceSimulationNetworkData} networkData - Network data.
    * @param {ForceSimulationDiagramBuilder-findNodeCallback} findNodeCallback - Function
    *     to find nodes. (include in other networks)
+   * @param {Object} parms - Parameters.
    */
-  constructor(networkData, findNodeCallback) {
+  constructor(networkData, findNodeCallback, params) {
     super()
     /** @type {ForceSimulationNetworkData} */
     this.networkData = networkData
@@ -42,6 +43,10 @@ class ForceSimulationDiagramBuilder extends DiagramBase {
      * @const {number}
      */
     this.nodeSize = 20
+    /**
+     * @const {Boolean}
+     */
+    this.enableInfoTable = params.enableInfoTable || false
 
     this._makeAllDiagramElements()
   }
@@ -74,7 +79,7 @@ class ForceSimulationDiagramBuilder extends DiagramBase {
     /** @type {Selection} */
     this.nodeLabelsSelection = this._makeNodeLabels()
     // setup info table
-    this._makeInfoTables()
+    this.enableInfoTable && this._makeInfoTables()
     // set style of initial inactive objects
     this._setCurrentInactiveElementsToInactive()
   }

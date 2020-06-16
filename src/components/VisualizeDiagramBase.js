@@ -17,15 +17,24 @@ class VisualizeDiagramBase extends AppAPIBase {
     this.nodeClickCallback = this.nodeClickCallback.bind(this)
   }
 
+  _renderStates() {
+    const states = [<li key={'date'}>date: {new Date().toISOString()}</li>]
+    for (const [key, value] of Object.entries(this.state)) {
+      states.push(
+        <li key={key}>
+          {key}: {value}
+        </li>
+      )
+    }
+    return states
+  }
+
   render() {
     return (
       <div>
         <div className="debug">
           VisualizeDiagram [{this.visualizerName}]:
-          <ul>
-            <li>modelFile: {this.state.modelFile}</li>
-            <li>alertHost: {this.state.alertHost}</li>
-          </ul>
+          <ul>{this._renderStates()}</ul>
         </div>
         <div id="visualizer" />
       </div>

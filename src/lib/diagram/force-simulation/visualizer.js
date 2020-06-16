@@ -66,7 +66,7 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
     }, 5000)
     this.uiSideDrawRfcTopologyCallback(this.topologyData)
     // draw
-    this._drawNetworkDiagrams()
+    this._drawNetworkDiagrams(params)
     this.highlightByAlert(params.alertHost)
   }
 
@@ -140,9 +140,10 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
 
   /**
    * Draw diagrams of each network.
+   * @param {TopologyDiagramParam} params
    * @private
    */
-  _drawNetworkDiagrams() {
+  _drawNetworkDiagrams(params) {
     this._clearAllDiagrams()
     // hand-over the operation through all layers
     // NOTICE: BIND `this`
@@ -152,7 +153,8 @@ class ForceSimulationDiagramVisualizer extends BaseContainer {
       /** @type {ForceSimulationDiagramOperator} */
       const networkDiagram = new ForceSimulationDiagramOperator(
         networkData,
-        callback
+        callback,
+        { enableInfoTable: params.infoTable } // params
       )
       this.positionCache.loadToTopologyData(
         this.storageKey,

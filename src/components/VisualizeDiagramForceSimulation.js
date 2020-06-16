@@ -8,6 +8,10 @@ class VisualizeDiagramForceSimulation extends VisualizeDiagramBase {
   constructor(props) {
     super(props)
     this.visualizerName = 'forceSimulation'
+    this.state = {
+      ...this.state, // copy pre-defined state at super class.
+      infoTable: false // fixed option
+    }
   }
 
   makeVisualizer() {
